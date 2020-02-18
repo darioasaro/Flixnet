@@ -1,69 +1,59 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./pages/Login";
 
-function App() {
-  return (
-    <>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
-          Navbar
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarTogglerDemo02"
-          aria-controls="navbarTogglerDemo02"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Link
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
-              >
-                Disabled
-              </a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input
-              class="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-            />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-              Search
-            </button>
-          </form>
+class App extends React.Component {
+  constructor() {
+    super();
+  }
+
+  Admins = () => {
+    return <h1>Admins</h1>;
+  };
+
+  Login = () => {
+    return <h1>About</h1>;
+  };
+
+  Users = () => {
+    return <h1>Users</h1>;
+  };
+
+  usarDatos = e => {
+    console.log(e);
+  };
+
+  render() {
+    return (
+      <Router>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/admins">Admins</Link>
+              </li>
+              <li>
+                <Link to="/users">Users</Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* A <Switch> looks through its children <Route>s and
+                  renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/login">
+              <Login pedirDatos={this.usarDatos} />
+            </Route>
+            <Route path="/users">{this.Users}</Route>
+            <Route path="/admins">{this.Admins}</Route>
+          </Switch>
         </div>
-      </nav>
-      <div class="card" style={{ width: "18rem" }}>
-        <img src="..." class="card-img-top" alt="..." />
-        <div class="card-body">
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-        </div>
-      </div>
-    </>
-  );
+      </Router>
+    );
+  }
 }
 
 export default App;
