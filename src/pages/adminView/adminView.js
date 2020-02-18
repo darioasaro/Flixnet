@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
+import Table from 'react-bootstrap/Table'
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -118,9 +119,10 @@ class AdminView extends React.Component {
     let dato = await response.json()
     this.setState({
       table:true,
-      
+      movies:dato.results
+
     })
-    console.log(dato);
+    console.log(this.state.movies);
     
   
     
@@ -144,6 +146,35 @@ class AdminView extends React.Component {
             <Button onClick={this.handleSearch} variant="outline-secondary">Search</Button>
           </InputGroup.Append>
         </InputGroup>
+        {this.state.table && 
+        <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Tittle</th>
+            <th>Year</th>
+            <th>Genre</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {this.state.movies.map((movie)=>
+           <tr>
+            <td>{movie.id}</td>
+          <td>{movie.title}</td>
+          <td>{movie.release_date}</td>
+          <td>{movie.genre_ids}</td>
+          </tr> 
+          
+          )}
+          
+          
+          
+          
+          </tbody>
+      </Table>
+        
+        }
 
         <Form className="adminForm">
         <h3 className="display-6">Add Movie</h3>
