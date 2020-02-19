@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
+import mydata from "src/data/users.json";
 
 class App extends React.Component {
   constructor() {
@@ -12,7 +13,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch("src/users.json")
+    fetch(mydata)
       .then(response => response.json())
       .then(data => this.setState({ data }));
 
