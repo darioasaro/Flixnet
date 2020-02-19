@@ -14,6 +14,7 @@ class AdminView extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
     this.state = {
       name: "",
       description: "",
@@ -109,11 +110,35 @@ class AdminView extends React.Component {
   //----FUNCIONES----//
 
   //Capta el id de la pelicula para agregar
-  handleAdd(e){
-    //falta funcion que viene por prop, va a pasar el id de la pelicula para agregar
-    console.log(e.target.id);
+   async handleAdd(e){
+      let dato = await this.findMovie(e.target.id)
+      
+      
+      
+      
+       let movie={
+        name : dato.original_title,
+        description : dato.overview,
+        genre : dato.genres,
+        year : dato.relase_date
+  
+      }
+      this.props.addMovie(movie)
+    }  
+
+   async findMovie(id){
     
-  }
+    let response = await fetch(
+      'https://api.themoviedb.org/3/movie/'+id+'?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US'
+    );
+    
+    let dato =  await response.json();
+      
+      return dato
+      
+   
+
+   }
 
   //Setea los estados de la pelicula que se agrega manualmente
   handleChange(e) {
@@ -132,7 +157,7 @@ class AdminView extends React.Component {
       year : this.state.year
 
     }
-    console.log(movie);
+    this.props.addMovie(movie)
     document.getElementById("form").reset()
   }
 
