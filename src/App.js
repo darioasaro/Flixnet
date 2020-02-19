@@ -2,23 +2,29 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
-import mydata from "src/data/users.json";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: null
+      usuarios: [
+        {
+          username: "",
+          password: ""
+        }
+      ]
     };
   }
 
-  componentDidMount() {
-    fetch(mydata)
+  componentDidMount = () => {
+    fetch("./data/users.json")
       .then(response => response.json())
-      .then(data => this.setState({ data }));
-
-    console.log(this.state.data);
-  }
+      .then(data =>
+        this.setState({
+          usuarios: data
+        })
+      );
+  };
 
   test = async () => {
     var uri = "batman forever";
