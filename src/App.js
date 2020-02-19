@@ -6,7 +6,19 @@ import AdminView from "./pages/adminView/adminView.js";
 class App extends React.Component {
   constructor() {
     super();
+    this.state = {
+      data: null
+    };
   }
+
+  componentDidMount() {
+    fetch("src/users.json")
+      .then(response => response.json())
+      .then(data => this.setState({ data }));
+
+    console.log(this.state.data);
+  }
+
   test = async () => {
     var uri = "batman forever";
     var res = encodeURI(uri);
