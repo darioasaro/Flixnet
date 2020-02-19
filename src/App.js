@@ -1,11 +1,22 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./pages/Login";
+import AdminView from "./pages/adminView/adminView.js";
 
 class App extends React.Component {
   constructor() {
     super();
   }
+  test = async () => {
+    var uri = "batman forever";
+    var res = encodeURI(uri);
+    let response = await fetch(
+      "https://api.themoviedb.org/3/search/movie?api_key=b813c5783821c2f14ec75f3ae6cb1824&query=" +
+        res
+    );
+    let dato = await response.json();
+    console.log(dato);
+  };
 
   Admins = () => {
     return <h1>Admins</h1>;
@@ -48,12 +59,13 @@ class App extends React.Component {
               <Login pedirDatos={this.usarDatos} />
             </Route>
             <Route path="/users">{this.Users}</Route>
-            <Route path="/admins">{this.Admins}</Route>
+            <Route path="/admins">
+              <AdminView />
+            </Route>
           </Switch>
         </div>
       </Router>
     );
   }
 }
-
 export default App;
