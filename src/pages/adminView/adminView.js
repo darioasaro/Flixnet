@@ -21,6 +21,8 @@ class AdminView extends React.Component {
       find: "",
       table: false,
       movies: [],
+      current_page:0,
+      pages:0,
       genres: [
         {
           id: 28,
@@ -145,8 +147,11 @@ class AdminView extends React.Component {
     let dato = await response.json();
     this.setState({
       table: true,
-      movies: dato.results
+      movies: dato.results,
+      pages:dato.total_pages,
+      current_page:dato.page  
     });
+    console.log(dato)
   }
 
   render() {
