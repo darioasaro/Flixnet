@@ -7,6 +7,8 @@ class App extends React.Component {
     this.test=this.test.bind(this)
   }
 
+
+  
   async test(){
  
     var uri = "batman forever"

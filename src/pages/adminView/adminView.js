@@ -6,6 +6,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
+import Pagination from 'react-bootstrap/Pagination'
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -151,7 +152,17 @@ class AdminView extends React.Component {
       pages:dato.total_pages,
       current_page:dato.page  
     });
-    console.log(dato)
+  }
+
+  createPaginacion(){
+    let arr = this.state.pages.map(numero=>{
+      return ([ <Pagination.Item key={numero} >
+         {numero}
+       </Pagination.Item>])
+     })
+
+     console.log(arr);
+     
   }
 
   render() {
@@ -174,6 +185,7 @@ class AdminView extends React.Component {
           </InputGroup.Append>
         </InputGroup>
         {this.state.table && (
+          <>
           <Table striped bordered hover variant="dark">
             <thead>
               <tr>
@@ -210,6 +222,17 @@ class AdminView extends React.Component {
               ))}
             </tbody>
           </Table>
+
+                    
+  
+                        <Pagination>{this.state.pages}</Pagination>
+                    
+                     
+                     
+                        
+                      
+                      
+           </>         
         )}
 
         <Form id = "form"className="adminForm">
