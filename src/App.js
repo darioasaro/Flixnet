@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
+import UserView from './pages/userView/userView'
 
 class App extends React.Component {
   constructor() {
@@ -83,7 +84,9 @@ class App extends React.Component {
             <Route path="/login">
               <Login pedirDatos={this.usarDatos} />
             </Route>
-            <Route path="/users">{this.Users}</Route>
+            <Route path="/users">{this.Users}
+            <UserView />
+            </Route>
             <Route path="/admins">
               <AdminView addMovie={this.addMovie}/>
             </Route>

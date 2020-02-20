@@ -109,13 +109,9 @@ class AdminView extends React.Component {
 
   //----FUNCIONES----//
 
-  //Capta el id de la pelicula para agregar
+  //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
    async handleAdd(e){
       let dato = await this.findMovie(e.target.id)
-      
-      
-      
-      
        let movie={
         name : dato.original_title,
         description : dato.overview,
@@ -125,19 +121,16 @@ class AdminView extends React.Component {
       }
       this.props.addMovie(movie)
     }  
-
+  // Dado un id busca en la api la pelicula
    async findMovie(id){
     
     let response = await fetch(
       'https://api.themoviedb.org/3/movie/'+id+'?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US'
     );
     
-    let dato =  await response.json();
-      
+    let dato =  await response.json();  
       return dato
       
-   
-
    }
 
   //Setea los estados de la pelicula que se agrega manualmente
@@ -178,7 +171,7 @@ class AdminView extends React.Component {
       current_page:dato.page  
     });
   }
-
+/* EN CONSTRUCCION */
   createPaginacion(){
     let arr = this.state.pages.map(numero=>{
       return ([ <Pagination.Item key={numero} >
@@ -194,6 +187,8 @@ class AdminView extends React.Component {
     return (
       <Container className="container">
         <h1 className="display-3">Admin Panel</h1>
+        <h3 className="display-6">Movies</h3>
+        
         <h3 className="display-6">Add Movie from API</h3>
         <h5>Search</h5>
 
