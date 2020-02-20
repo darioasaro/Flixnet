@@ -5,20 +5,26 @@ import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
+import Table from "react-bootstrap/Table";
+import Pagination from 'react-bootstrap/Pagination'
 
 class AdminView extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleSearch= this.handleSearch.bind(this)
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
     this.state = {
       name: "",
       description: "",
       year: "",
-      find:"",
-      table:false,
-      movies:[],
+      genreAdd:"",
+      find: "",
+      table: false,
+      movies: [],
+      current_page:0,
+      pages:0,
       genres: [
         {
           id: 28,
@@ -100,31 +106,88 @@ class AdminView extends React.Component {
     };
   }
 
+
+  //----FUNCIONES----//
+
+  //Capta el id de la pelicula para agregar
+   async handleAdd(e){
+      let dato = await this.findMovie(e.target.id)
+      
+      
+      
+      
+       let movie={
+        name : dato.original_title,
+        description : dato.overview,
+        genre : dato.genres,
+        year : dato.relase_date
+  
+      }
+      this.props.addMovie(movie)
+    }  
+
+   async findMovie(id){
+    
+    let response = await fetch(
+      'https://api.themoviedb.org/3/movie/'+id+'?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US'
+    );
+    
+    let dato =  await response.json();
+      
+      return dato
+      
+   
+
+   }
+
+  //Setea los estados de la pelicula que se agrega manualmente
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
     });
   }
-
+  //funcion para ejecutar el add de la pelicula manual
   handleClick(e) {
     e.preventDefault();
-    console.log(this.state.name);
-  }
-   async handleSearch(e){
-    e.preventDefault()
-    var uri =this.state.find
-    var res = encodeURI(uri);
-    let response = await fetch('https://api.themoviedb.org/3/search/movie?api_key=b813c5783821c2f14ec75f3ae6cb1824&query='+res)
-    let dato = await response.json()
-    this.setState({
-      table:true,
-      
-    })
-    console.log(dato);
-    
-  
-    
+    //falta funcion que viene por prop para agregar movie, se pasa un objeto 
+   let movie={
+      name : this.state.name,
+      description : this.state.description,
+      genre : this.state.genreAdd,
+      year : this.state.year
 
+    }
+    this.props.addMovie(movie)
+    document.getElementById("form").reset()
+  }
+
+  //funcion asincronica que busca en la api y trae los resultados del search del administrador
+  async handleSearch(e) {
+    e.preventDefault();
+    var uri = this.state.find;
+    var res = encodeURI(uri);
+    let response = await fetch(
+      "https://api.themoviedb.org/3/search/movie?api_key=b813c5783821c2f14ec75f3ae6cb1824&query=" +
+        res
+    );
+    let dato = await response.json();
+    this.setState({
+      table: true,
+      movies: dato.results,
+      pages:dato.total_pages,
+      current_page:dato.page  
+    });
+  }
+
+  createPaginacion(){
+    let arr = this.state.pages.map(numero=>{
+      return ([ <Pagination.Item key={numero} >
+         {numero}
+       </Pagination.Item>])
+     })
+
+     console.log(arr);
+     
   }
 
   render() {
@@ -133,7 +196,7 @@ class AdminView extends React.Component {
         <h1 className="display-3">Admin Panel</h1>
         <h3 className="display-6">Add Movie from API</h3>
         <h5>Search</h5>
-        
+
         <InputGroup className="mb-3">
           <Form.Control
             placeholder="Find Movie"
@@ -141,12 +204,64 @@ class AdminView extends React.Component {
             onChange={this.handleChange}
           />
           <InputGroup.Append>
-            <Button onClick={this.handleSearch} variant="outline-secondary">Search</Button>
+            <Button onClick={this.handleSearch} variant="outline-secondary">
+              Search
+            </Button>
           </InputGroup.Append>
         </InputGroup>
+        {this.state.table && (
+          <>
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Tittle</th>
+                <th>Year</th>
+                <th>Genre</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.movies.map(movie => (
+                <tr>
+                  <td>{movie.id}</td>
+                  <td>{movie.title}</td>
+                  <td>{movie.release_date}</td>
+                  <td>
+                    {movie.genre_ids.map(id => {
+                      
+                      let genero = this.state.genres.map(gnres => {
+                        if (id === gnres.id) 
+                        return gnres.name + "-";
+                        else return "";
+                      });
+                      return genero
+                    })}
+                  </td>
+                  <td>
+                    {" "}
+                    <Button id = {movie.id} onClick={this.handleAdd} variant="primary" type="submit">
+                      Add Movie
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
 
-        <Form className="adminForm">
-        <h3 className="display-6">Add Movie</h3>
+                    
+  
+                        <Pagination>{this.state.pages}</Pagination>
+                    
+                     
+                     
+                        
+                      
+                      
+           </>         
+        )}
+
+        <Form id = "form"className="adminForm">
+          <h3 className="display-6">Add Movie</h3>
           <Form.Row>
             <Form.Group as={Col}>
               <Form.Label>Title</Form.Label>
@@ -162,7 +277,7 @@ class AdminView extends React.Component {
             </Form.Group>
             <Form.Group as={Col}>
               <Form.Label>Genre</Form.Label>
-              <Form.Control as="select">
+              <Form.Control name="genreAdd" onChange={this.handleChange} as="select">
                 {this.state.genres.map(generos => (
                   <option>{generos.name}</option>
                 ))}
@@ -184,11 +299,12 @@ class AdminView extends React.Component {
             </InputGroup>
 
             <Form.Group as={Col}>
-              <Form.Label>Image</Form.Label>
+              <Form.Label>Search Image</Form.Label>
               <Form.Control
                 type="file"
                 name="images"
                 onChange={this.onChange}
+                
               />
             </Form.Group>
           </Form.Row>
@@ -203,4 +319,4 @@ class AdminView extends React.Component {
 }
 export default AdminView;
 
-//titulo-año-genero-overview-imagen-actores <option>Accion</option>
+

@@ -37,6 +37,12 @@ class App extends React.Component {
     console.log(dato);
   };
 
+  addMovie(movie){
+    
+    console.log('pelicula agregada',movie);
+    
+  }
+
   Admins = () => {
     return <h1>Admins</h1>;
   };
@@ -91,7 +97,7 @@ class App extends React.Component {
             </Route>
             <Route path="/users">{this.Users}</Route>
             <Route path="/admins">
-              <AdminView />
+              <AdminView addMovie={this.addMovie}/>
             </Route>
           </Switch>
         </div>
