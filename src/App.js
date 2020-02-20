@@ -41,8 +41,11 @@ class App extends React.Component {
     console.log(dato);
   };
 
-  
-  
+  addMovie = movie => {
+    console.log("pelicula agregada", movie);
+    dataBase.setData("pelicula", movie);
+  };
+
   usarDatos = e => {
     const usuarios = this.state.usuarios;
     usuarios.forEach(usuario => {

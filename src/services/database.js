@@ -1,5 +1,5 @@
 const setData = (where, data) => {
-  localStorage.setItem(where, data);
+  localStorage.setItem(where, JSON.stringify(data));
 };
 
 const getData = where => {
