@@ -1,13 +1,12 @@
-.container{
-   
-    background-color:#202020;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    color: white;
-    text-align: center;
+.container {
+  background-color: #202020;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  color: white;
+  text-align: center;
 }
-.adminForm{
-    color:white;
-    margin-top: 6%;
+.adminForm {
+  color: white;
+  margin-top: 6%;
 }

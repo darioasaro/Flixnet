@@ -130,12 +130,13 @@ class AdminView extends React.Component {
   //funcion para ejecutar el add de la pelicula manual
   handleClick(e) {
     e.preventDefault();
-    //falta funcion que viene por prop para agregar movie, se pasa un objeto
+
     let movie = {
       name: this.state.name,
       description: this.state.description,
       genre: this.state.genreAdd,
-      year: this.state.year
+      year: this.state.year,
+      poster_image: this.state.image
     };
     this.props.addMovie(movie);
     document.getElementById("form").reset();
