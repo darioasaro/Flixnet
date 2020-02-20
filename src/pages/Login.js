@@ -6,7 +6,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "",
+      username: "",
       password: ""
     };
   }
@@ -20,7 +20,6 @@ class Login extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(e.target.value);
   };
 
   render() {
@@ -32,7 +31,7 @@ class Login extends Component {
             type="text"
             placeholder="Enter username"
             onChange={this.onChange}
-            name="userName"
+            name="username"
           />
         </Form.Group>
 

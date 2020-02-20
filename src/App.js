@@ -50,7 +50,19 @@ class App extends React.Component {
   };
 
   usarDatos = e => {
-    console.log(e);
+    const usuarios = this.state.usuarios;
+
+    usuarios.forEach(usuario => {
+      if (e.username === usuario.username) {
+        if (e.password === usuario.password) {
+          console.log(usuario.state);
+        } else {
+          console.log("te fallo la pass crack");
+        }
+      } else {
+        console.log("te fallo el usuario master");
+      }
+    });
   };
 
   render() {
