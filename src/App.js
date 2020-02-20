@@ -42,7 +42,7 @@ class App extends React.Component {
 
   addMovie = movie => {
     console.log("pelicula agregada", movie);
-    dataBase.setData("pelicula", JSON.stringify(movie));
+    dataBase.setData("pelicula", movie);
   };
 
   usarDatos = e => {
