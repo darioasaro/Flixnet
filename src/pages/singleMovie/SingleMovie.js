@@ -9,7 +9,7 @@ class SingleMovie extends React.Component {
 
   render() {
     return (
-      <Container className="container">
+      <Container className="myContainer">
         <div>
           <img src="https://image.tmdb.org/t/p/w154/dr6x4GyyegBWtinPBzipY02J2lV.jpg" />
         </div>
