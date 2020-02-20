@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import "./singleMovie.css";
 import dataBase from "../../services/database";
+import Button from "react-bootstrap/Button";
 
 class SingleMovie extends React.Component {
   constructor() {
@@ -22,6 +23,14 @@ class SingleMovie extends React.Component {
         <div>
           <h1> {pelicula.name} </h1>
           <p> {pelicula.description} </p>
+          <>
+            <Button variant="primary" size="lg" active>
+              Peliculón
+            </Button>{" "}
+            <Button variant="secondary" size="lg" active>
+              Aburrida
+            </Button>
+          </>
         </div>
       </Container>
     );
