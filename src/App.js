@@ -27,6 +27,7 @@ class App extends React.Component {
         usuarios: data
       });
     });
+    dataBase.setData("movies","")
   };
 
   test = async () => {
@@ -41,10 +42,30 @@ class App extends React.Component {
   };
 
   addMovie = movie => {
-    console.log("pelicula agregada", movie);
-    dataBase.setData("pelicula", JSON.stringify(movie));
-  };
+    
+    
+    dataBase.setData("pelicula", (movie));
+    var pelis = dataBase.getData("movies")
+    if(pelis == ""){
+      pelis = []
+      pelis.push(movie)
+      dataBase.setData("movies",pelis)
 
+   }
+   console.log(pelis);
+   
+       pelis.push(movie)
+      dataBase.setData("movies",pelis)
+   
+   
+   
+   
+  //  pelis.push(json.Parse(movie))
+  //  dataBase.setData("movies",pelis)
+
+    
+  };
+  
   usarDatos = e => {
     const usuarios = this.state.usuarios;
     usuarios.forEach(usuario => {
