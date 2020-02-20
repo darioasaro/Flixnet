@@ -2,7 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
-import CardGroup from 'react-bootstrap/Card'
+import CardGroup from "react-bootstrap/Card";
 import "../userView/userView.css";
 
 class ViewUser extends React.Component {
@@ -40,7 +40,7 @@ class ViewUser extends React.Component {
       <Container className="container">
           <h2 class="blockquote text-center">Popular Movies</h2>
         <Carousel className="carrousel">
-        <Carousel.Item className="carrousel-card">
+          <Carousel.Item className="carrousel-card">
             <CardGroup className="card-group">
               
               
