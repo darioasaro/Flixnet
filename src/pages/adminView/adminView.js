@@ -7,6 +7,7 @@ import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
+import { findMovie } from "../../services/movies";
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -110,7 +111,7 @@ class AdminView extends React.Component {
 
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
-    let dato = await this.findMovie(e.target.id);
+    let dato = await findMovie(e.target.id);
     let movie = {
       name: dato.original_title,
       description: dato.overview,
@@ -118,17 +119,6 @@ class AdminView extends React.Component {
       year: dato.relase_date
     };
     this.props.addMovie(movie);
-  }
-  // Dado un id busca en la api la pelicula
-  async findMovie(id) {
-    let response = await fetch(
-      "https://api.themoviedb.org/3/movie/" +
-        id +
-        "?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US"
-    );
-
-    let dato = await response.json();
-    return dato;
   }
 
   //Setea los estados de la pelicula que se agrega manualmente
