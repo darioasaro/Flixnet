@@ -45,11 +45,11 @@ class App extends React.Component {
     if (!json) {
       dataBase.setData("movies", []);
       this.addMovie(movie);
+    } else {
+      let movies = json;
+      movies.push(movie);
+      dataBase.setData("movies", movies);
     }
-    let movies = json;
-    movies.push(movie);
-
-    dataBase.setData("movies", movies);
   };
 
   usarDatos = e => {
