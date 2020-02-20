@@ -4,7 +4,6 @@ import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/Card";
 import "../userView/userView.css";
-
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
