@@ -7,7 +7,7 @@ class NavBar extends React.Component{
         
     render(){
         return(
-            <Navbar bg="dark" variant="dark">
+            <Navbar className="navBar" bg="dark" variant="dark">
     <Navbar.Brand href="#home">FlixNet</Navbar.Brand>
     <Nav className="mr-auto">
       <Link  className="nav-link"to="/login">Login</Link>
