@@ -37,11 +37,16 @@ class App extends React.Component {
     console.log(dato);
   };
 
-  addMovie(movie){
-    
-    console.log('pelicula agregada',movie);
-    
+  addMovie(movie) {
+    console.log("pelicula agregada", movie);
   }
+
+  saveInLocalStorage = (where, data) => {
+    localStorage.setItem(where, data);
+  };
+  getDataOfLocalStorage = where => {
+    return localStorage.getItem(where);
+  };
 
   Admins = () => {
     return <h1>Admins</h1>;
@@ -62,6 +67,8 @@ class App extends React.Component {
       if (e.username === usuario.username) {
         if (e.password === usuario.password) {
           console.log(usuario.state);
+          this.saveInLocalStorage("username", usuario.username);
+          this.saveInLocalStorage("token", "000001");
         } else {
           console.log("te fallo la pass crack");
         }
@@ -97,7 +104,7 @@ class App extends React.Component {
             </Route>
             <Route path="/users">{this.Users}</Route>
             <Route path="/admins">
-              <AdminView addMovie={this.addMovie}/>
+              <AdminView addMovie={this.addMovie} />
             </Route>
           </Switch>
         </div>

@@ -10,7 +10,6 @@ class Login extends Component {
       password: ""
     };
   }
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.pedirDatos(this.state);
