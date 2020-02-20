@@ -23,6 +23,10 @@ class ViewUser extends React.Component {
     console.log(this.state);
   }
 
+  handleClick(e) {
+    console.log(e.target.id);
+  }
+
   // createPopmovies(){
   //   let arr = []
   //   let indx = 0
@@ -38,26 +42,41 @@ class ViewUser extends React.Component {
     return (
       <Container className="container">
         <h2 class="blockquote text-center">Popular Movies</h2>
-        <Carousel className="carrousel">
-          <Carousel.Item className="carrousel-card">
-            <CardGroup className="card-group">
-              {this.state.topRated.map(movie => {
-                return (
-                  <Card>
-                    <Card.Img
-                      className="card-img"
-                      variant="top"
-                      src={
-                        "https://image.tmdb.org/t/p/w342" + movie.poster_path
-                      }
-                      onClick={this.handleClick}
-                    />
-                  </Card>
-                );
-              })}
-            </CardGroup>
-          </Carousel.Item>
-        </Carousel>
+        {/* <Carousel className="carrousel">
+          <Carousel.Item className="carrousel-card"> */}
+        <CardGroup className="card-group">
+          {this.state.topRated.map(movie => {
+            return (
+              <Card>
+                <Card.Img
+                  id={movie.id}
+                  className="card-img"
+                  variant="top"
+                  src={"https://image.tmdb.org/t/p/w342" + movie.poster_path}
+                  onClick={this.handleClick}
+                />
+              </Card>
+            );
+          })}
+        </CardGroup>
+        <h2 class="blockquote text-center">My Movies</h2>
+        <CardGroup className="card-group">
+          {this.state.topRated.map(movie => {
+            return (
+              <Card>
+                <Card.Img
+                  id={movie.id}
+                  className="card-img"
+                  variant="top"
+                  src={"https://image.tmdb.org/t/p/w342" + movie.poster_path}
+                  onClick={this.handleClick}
+                />
+              </Card>
+            );
+          })}
+        </CardGroup>
+        {/* </Carousel.Item>
+        </Carousel> */}
       </Container>
     );
   }

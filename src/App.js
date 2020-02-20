@@ -40,9 +40,16 @@ class App extends React.Component {
     console.log(dato);
   };
 
-  addMovie = movie => {
-    console.log("pelicula agregada", movie);
-    dataBase.setData("pelicula", movie);
+  addMovie = async movie => {
+    const json = await dataBase.getData("movies");
+    if (!json) {
+      dataBase.setData("movies", []);
+      this.addMovie(movie);
+    }
+    let movies = json;
+    movies.push(movie);
+
+    dataBase.setData("movies", movies);
   };
 
   usarDatos = e => {
