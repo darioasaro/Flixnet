@@ -41,30 +41,7 @@ class App extends React.Component {
     console.log(dato);
   };
 
-  addMovie = movie => {
-    
-    
-    dataBase.setData("pelicula", (movie));
-    var pelis = dataBase.getData("movies")
-    if(pelis == ""){
-      pelis = []
-      pelis.push(movie)
-      dataBase.setData("movies",pelis)
-
-   }
-   console.log(pelis);
-   
-       pelis.push(movie)
-      dataBase.setData("movies",pelis)
-   
-   
-   
-   
-  //  pelis.push(json.Parse(movie))
-  //  dataBase.setData("movies",pelis)
-
-    
-  };
+  
   
   usarDatos = e => {
     const usuarios = this.state.usuarios;

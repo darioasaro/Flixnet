@@ -3,7 +3,7 @@ const setData = (where, data) => {
 };
 
 const getData = where => {
-  return localStorage.getItem(where);
+  return JSON.parse(localStorage.getItem(where));
 };
 
 export default { setData, getData };
