@@ -2,18 +2,24 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import "./singleMovie.css";
 import Button from "react-bootstrap/Button";
+import dataBase from "../../services/database";
 
 class SingleMovie extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {
-      token: [
-        {
-          static: "00001"
-        }
-      ]
-    };
+    super();
   }
+  addFav = async () => {
+    const user = await dataBase.getData("username");
+    const json = await dataBase.getData("List of " + user);
+    if (!json) {
+      dataBase.setData("List of " + user, []);
+      this.addFav();
+    } else {
+      let favs = json;
+      favs.push(this.props.movie);
+      dataBase.setData("List of " + user, favs);
+    }
+  };
 
   render() {
     const pelicula = this.props.movie;
@@ -34,7 +40,13 @@ class SingleMovie extends React.Component {
           <p>Cantidad de votantes: {pelicula.vote_count}</p>
 
           <>
-            <Button className="mr-3" variant="primary" size="lg" active>
+            <Button
+              className="mr-3"
+              variant="primary"
+              size="lg"
+              active
+              onClick={this.addFav}
+            >
               Peliculón
             </Button>
             <Button variant="secondary" size="lg" active>

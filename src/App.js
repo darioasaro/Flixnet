@@ -61,7 +61,7 @@ class App extends React.Component {
         if (e.password === usuario.password) {
           console.log(usuario.state);
           dataBase.setData("username", usuario.username);
-          dataBase.setData("token", "000001");
+          dataBase.setData("List of " + usuario.username, []);
         } else {
           console.log("te fallo la pass crack");
         }
