@@ -37,9 +37,10 @@ class App extends React.Component {
     console.log(dato);
   };
 
-  addMovie(movie) {
+  addMovie = movie => {
     console.log("pelicula agregada", movie);
-  }
+    this.saveInLocalStorage("pelicula", JSON.stringify(movie));
+  };
 
   saveInLocalStorage = (where, data) => {
     localStorage.setItem(where, data);
