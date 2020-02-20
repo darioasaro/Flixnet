@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import { findMovie } from "../../services/movies";
+import dataBase from "../../services/database";
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -109,6 +110,11 @@ class AdminView extends React.Component {
 
   //----FUNCIONES----//
 
+  //Borra de la base de datos todas las peliculas
+
+  deleteAllMovies = () => {
+    dataBase.deleteData("movies");
+  };
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
     let dato = await findMovie(e.target.id);
@@ -179,6 +185,9 @@ class AdminView extends React.Component {
 
         <h3 className="display-6">Add Movie from API</h3>
         <h5>Search</h5>
+        <Button onClick={this.deleteAllMovies} variant="primary">
+          DELETE
+        </Button>
 
         <InputGroup className="mb-3">
           <Form.Control
