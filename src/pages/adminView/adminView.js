@@ -116,11 +116,12 @@ class AdminView extends React.Component {
       name: dato.original_title,
       description: dato.overview,
       genre: dato.genres,
-      year: dato.relase_date
+      year: dato.relase_date,
+      poster_image: dato.poster_path,
+      card_image: dato.backdrop_path
     };
     this.props.addMovie(movie);
   }
-
   //Setea los estados de la pelicula que se agrega manualmente
   handleChange(e) {
     this.setState({
