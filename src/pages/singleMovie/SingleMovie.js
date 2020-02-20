@@ -30,8 +30,11 @@ class SingleMovie extends React.Component {
         <div>
           <h1> {pelicula.name} </h1>
           <p> {pelicula.description} </p>
+          <p>Voto general: {pelicula.vote_average}</p>
+          <p>Cantidad de votantes: {pelicula.vote_count}</p>
+
           <>
-            <Button variant="primary" size="lg" active>
+            <Button className="mr-3" variant="primary" size="lg" active>
               Peliculón
             </Button>
             <Button variant="secondary" size="lg" active>

@@ -51,7 +51,6 @@ class App extends React.Component {
       movies.push(movie);
       dataBase.setData("movies", movies);
       this.setState({ movie });
-      console.log(this.state);
     }
   };
 

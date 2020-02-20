@@ -118,7 +118,9 @@ class AdminView extends React.Component {
       genre: dato.genres,
       year: dato.relase_date,
       poster_image: dato.poster_path,
-      card_image: dato.backdrop_path
+      card_image: dato.backdrop_path,
+      vote_average: dato.vote_average,
+      vote_count: dato.vote_count
     };
     this.props.addMovie(movie);
   }
@@ -203,7 +205,7 @@ class AdminView extends React.Component {
               </thead>
               <tbody>
                 {this.state.movies.map(movie => (
-                  <tr>
+                  <tr key={movie.id}>
                     <td>{movie.id}</td>
                     <td>{movie.title}</td>
                     <td>{movie.release_date}</td>
@@ -217,7 +219,6 @@ class AdminView extends React.Component {
                       })}
                     </td>
                     <td>
-                      {" "}
                       <Button
                         id={movie.id}
                         onClick={this.handleAdd}

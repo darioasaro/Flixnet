@@ -8,5 +8,6 @@ export const findMovie = async id => {
   );
 
   let dato = await response.json();
+
   return dato;
 };
