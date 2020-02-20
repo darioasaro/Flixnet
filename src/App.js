@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
 import UserView from "./pages/userView/userView";
@@ -17,7 +17,8 @@ class App extends React.Component {
           username: "",
           password: ""
         }
-      ]
+      ],
+      movie: [{ movie: "" }]
     };
   }
 
@@ -49,6 +50,8 @@ class App extends React.Component {
       let movies = json;
       movies.push(movie);
       dataBase.setData("movies", movies);
+      this.setState({ movie });
+      console.log(this.state);
     }
   };
 
@@ -84,7 +87,7 @@ class App extends React.Component {
               <AdminView addMovie={this.addMovie} />
             </Route>
             <Route path="/movie">
-              <SingleMovie />
+              <SingleMovie movie={this.state.movie} />
             </Route>
           </Switch>
         </Layout>

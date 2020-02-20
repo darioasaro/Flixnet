@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/Card";
 import "../userView/userView.css";
@@ -27,23 +26,10 @@ class ViewUser extends React.Component {
     console.log(e.target.id);
   }
 
-  // createPopmovies(){
-  //   let arr = []
-  //   let indx = 0
-  //   let leng  = 6
-  //   for(let i = 0;i<this.state.topRated.length/6;i++){
-
-  //     arr[i] = this.state.topRated.slice(indx,leng)
-  //     indx = leng
-  //   }
-  // }
-
   render() {
     return (
       <Container className="container">
         <h2 class="blockquote text-center">Popular Movies</h2>
-        {/* <Carousel className="carrousel">
-          <Carousel.Item className="carrousel-card"> */}
         <CardGroup className="card-group">
           {this.state.topRated.map(movie => {
             return (
@@ -75,8 +61,6 @@ class ViewUser extends React.Component {
             );
           })}
         </CardGroup>
-        {/* </Carousel.Item>
-        </Carousel> */}
       </Container>
     );
   }

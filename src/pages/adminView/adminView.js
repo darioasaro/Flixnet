@@ -258,8 +258,8 @@ class AdminView extends React.Component {
                 onChange={this.handleChange}
                 as="select"
               >
-                {this.state.genres.map(generos => (
-                  <option>{generos.name}</option>
+                {this.state.genres.map((generos, i) => (
+                  <option key={i}>{generos.name}</option>
                 ))}
               </Form.Control>
             </Form.Group>
