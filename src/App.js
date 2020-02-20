@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
 import UserView from './pages/userView/userView'
 
+import Layout from './components/Layout'
+
 class App extends React.Component {
   constructor() {
     super();
@@ -64,7 +66,7 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <nav>
+          {/* <nav>
             <ul>
               <li>
                 <Link to="/login">Login</Link>
@@ -76,10 +78,12 @@ class App extends React.Component {
                 <Link to="/users">Users</Link>
               </li>
             </ul>
-          </nav>
+          </nav> */}
+          
 
           {/* A <Switch> looks through its children <Route>s and
                   renders the first one that matches the current URL. */}
+         <Layout>
           <Switch>
             <Route path="/login">
               <Login pedirDatos={this.usarDatos} />
@@ -91,6 +95,7 @@ class App extends React.Component {
               <AdminView addMovie={this.addMovie}/>
             </Route>
           </Switch>
+          </Layout>
         </div>
       </Router>
     );
