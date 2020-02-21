@@ -42,6 +42,10 @@ class SingleMovie extends React.Component {
         }
       });
       dataBase.setData("List of " + user, json);
+      alert("Ya fue removida");
+      this.setState({
+        back: true
+      });
     }
   };
 
