@@ -21,6 +21,9 @@ class ViewUser extends React.Component {
 
     let user = await dataBase.getData("username");
     let miLista = await dataBase.getData("List of " + user);
+    if (miLista === null) {
+      miLista = this.state.myList;
+    }
 
     this.setState({
       topRated: resMovies.results.slice(0, 6),
