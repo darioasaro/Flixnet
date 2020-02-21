@@ -176,10 +176,14 @@ class AdminView extends React.Component {
 
     console.log(arr);
   }
+  onLoggout = () => {
+    this.props.inLoggout();
+  };
 
   render() {
     return (
       <Container className="container">
+        <Button onClick={this.onLoggout}> loggout </Button>
         <h1 className="display-3">Admin Panel</h1>
         <h3 className="display-6">Movies</h3>
 

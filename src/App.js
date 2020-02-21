@@ -59,22 +59,17 @@ class App extends React.Component {
       this.setState({ movie });
     }
   };
-
+  loggout = () => {
+    this.setState({ redirect: null });
+  };
   usarDatos = e => {
     const usuarios = this.state.usuarios;
     usuarios.forEach(usuario => {
       if (e.username === usuario.username) {
         if (e.password === usuario.password) {
           dataBase.setData("username", usuario.username);
-          // const data = dataBase.getData("List of " + usuario.username);
 
           this.setState({ redirect: usuario.state });
-          console.log(this.state);
-          // if (data) {
-          //   data.then(data => console.log(data));
-          // } else {
-          //   dataBase.setData("List of " + usuario.username, []);
-          // }
         } else {
           console.log("te fallo la pass crack");
         }
@@ -89,17 +84,19 @@ class App extends React.Component {
       <Router>
         {this.state.redirect ? (
           <Redirect to={"/" + this.state.redirect} />
-        ) : null}
+        ) : (
+          <Redirect to={"/"} />
+        )}
         <Layout>
           <Switch>
             <Route exact path="/">
               <Login pedirDatos={this.usarDatos} />
             </Route>
             <Route path="/users">
-              <UserView />
+              <UserView inLoggout={this.loggout} />
             </Route>
             <Route path="/admins">
-              <AdminView addMovie={this.addMovie} />
+              <AdminView addMovie={this.addMovie} inLoggout={this.loggout} />
             </Route>
             <Route path="/movie">
               <SingleMovie movie={this.state.movie} />
