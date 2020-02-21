@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
 import UserView from "./pages/userView/userView";
@@ -18,6 +23,7 @@ class App extends React.Component {
           password: ""
         }
       ],
+      redirect: null,
       movie: [{ movie: "" }]
     };
   }
@@ -59,14 +65,16 @@ class App extends React.Component {
     usuarios.forEach(usuario => {
       if (e.username === usuario.username) {
         if (e.password === usuario.password) {
-          console.log(usuario.state);
           dataBase.setData("username", usuario.username);
-          const data = dataBase.getData("List of " + usuario.username);
-          if (data) {
-            data.then(data => console.log(data));
-          } else {
-            dataBase.setData("List of " + usuario.username, []);
-          }
+          // const data = dataBase.getData("List of " + usuario.username);
+
+          this.setState({ redirect: usuario.state });
+          console.log(this.state);
+          // if (data) {
+          //   data.then(data => console.log(data));
+          // } else {
+          //   dataBase.setData("List of " + usuario.username, []);
+          // }
         } else {
           console.log("te fallo la pass crack");
         }
@@ -79,9 +87,12 @@ class App extends React.Component {
   render() {
     return (
       <Router>
+        {this.state.redirect ? (
+          <Redirect to={"/" + this.state.redirect} />
+        ) : null}
         <Layout>
           <Switch>
-            <Route path="/login">
+            <Route exact path="/">
               <Login pedirDatos={this.usarDatos} />
             </Route>
             <Route path="/users">
