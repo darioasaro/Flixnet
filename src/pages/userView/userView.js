@@ -7,7 +7,7 @@ import dataBase from "../../services/database";
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
-
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       
       topRated: [],
@@ -39,7 +39,10 @@ class ViewUser extends React.Component {
   }
 
   handleClick(e) {
-    console.log(e.target.id);
+    
+    
+    this.props.selfMovieView(e.target.id);
+    
   }
 
   render() {

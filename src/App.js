@@ -7,10 +7,12 @@ import SingleMovie from "./pages/singleMovie/SingleMovie";
 import Layout from "./components/Layout";
 import { getUsers } from "./services/users";
 import dataBase from "./services/database";
+import {findMovie} from "./services/movies";
 
 class App extends React.Component {
   constructor() {
     super();
+    this.selfMovieView = this.selfMovieView.bind(this)
     this.state = {
       usuarios: [
         { 
@@ -19,7 +21,8 @@ class App extends React.Component {
           password: ""
         }
       ],
-      movie: [{ movie: "" }]
+      movie:{}
+      // movie: [{ movie: "" }]
     };
   }
 
@@ -77,6 +80,23 @@ class App extends React.Component {
     });
   };
 
+   async selfMovieView(id){
+     
+     
+    let mov =  await findMovie(id)
+    
+     this.setState({
+      movie:mov
+    })
+    console.log(this.state.movie);
+    
+    
+    
+      
+    
+    
+  }
+
   render() {
     return (
       <Router>
@@ -86,7 +106,7 @@ class App extends React.Component {
               <Login pedirDatos={this.usarDatos} />
             </Route>
             <Route path="/users">
-              <UserView key={this.state.key} />
+              <UserView selfMovieView={this.selfMovieView}key={this.state.key} />
             </Route>
             <Route path="/admins">
               <AdminView addMovie={this.addMovie} />
