@@ -12,8 +12,9 @@ import {findMovie} from "./services/movies";
 class App extends React.Component {
   constructor() {
     super();
-    this.selfMovieView = this.selfMovieView.bind(this)
+    this.selfMovieView = this.selfMovieView.bind(this) 
     this.state = {
+      singe:0,
       usuarios: [
         { 
           
@@ -21,8 +22,8 @@ class App extends React.Component {
           password: ""
         }
       ],
-      movie:{}
-      // movie: [{ movie: "" }]
+     
+       movie: [{ movie: "" }]
     };
   }
 
@@ -86,9 +87,10 @@ class App extends React.Component {
     let mov =  await findMovie(id)
     
      this.setState({
-      movie:mov
+      movie:mov,
+      single : id
     })
-    console.log(this.state.movie);
+    console.log(this.state.single);
     
     
     
@@ -100,6 +102,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
+
         <Layout>
           <Switch>
             <Route path="/login">
@@ -111,7 +114,9 @@ class App extends React.Component {
             <Route path="/admins">
               <AdminView addMovie={this.addMovie} />
             </Route>
-            <Route path="/movie">
+            {/* <Route path="/movie:idSelected" */}
+            <Route path="/movie"
+            >
               <SingleMovie movie={this.state.movie} />
             </Route>
           </Switch>

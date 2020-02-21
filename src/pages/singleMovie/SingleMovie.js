@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import "./singleMovie.css";
 import Button from "react-bootstrap/Button";
 import dataBase from "../../services/database";
+import { useParams } from "react-router-dom"
 
 class SingleMovie extends React.Component {
   constructor(props) {
@@ -21,11 +22,16 @@ class SingleMovie extends React.Component {
     }
   };
 
+  // componentDidMount () {
+  //   const { idSelected } =  useParams();
+  //   alert(idSelected)
+  // }
+
   render() {
     const pelicula = this.props.movie;
     let url;
 
-    pelicula.card_image
+    pelicula.backdrop_path
       ? (url = "500" + pelicula.backdrop_path)
       : (url = "342" + pelicula.poster_path);
     return (
@@ -34,7 +40,7 @@ class SingleMovie extends React.Component {
           <img src={"https://image.tmdb.org/t/p/w" + url} alt="" />
         </div>
         <div>
-          <h1> {pelicula.title} </h1>
+          <h1> {pelicula.original_title} </h1>
           <p> {pelicula.overview} </p>
           <p>Voto general: {pelicula.vote_average}</p>
           <p>Cantidad de votantes: {pelicula.vote_count}</p>

@@ -5,6 +5,10 @@ import CardGroup from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "../userView/userView.css";
 import dataBase from "../../services/database";
+import { Redirect } from "react-router-dom";
+
+import { Link } from "react-router-dom";
+
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +17,8 @@ class ViewUser extends React.Component {
       
       topRated: [],
       myList: [],
-      avaibleList:[]
+      avaibleList:[],
+      idMovie: null
     };
   }
   async componentDidMount() {
@@ -39,7 +44,11 @@ class ViewUser extends React.Component {
     
   }
   handleClick = e => {
-    console.log(e.target.id);
+    //console.log(e.target.id)
+    this.setState({
+      idMovie : e.target.id
+    })
+    this.props.selfMovieView(e.target.id)
   };
 
   deleteMyFavoriteList = async () => {
@@ -50,10 +59,13 @@ class ViewUser extends React.Component {
     });
   };
 
-  render() {
+  render() { 
+    if (this.state.idMovie )
+      // return <Redirect to={`/movie/${this.state.idMovie}`}/>
+      return <Redirect to={'/movie'}/>
     return (
       <Container className="container">
-        <h2 className="blockquote text-center">Popular Movies</h2>
+  <h2 className="blockquote text-center">Popular Movies</h2>
         <CardGroup className="card-group">
           {this.state.topRated.map((movie, i) => {
             return (
@@ -74,18 +86,19 @@ class ViewUser extends React.Component {
         <CardGroup className="card-group">
           {this.state.avaibleList.map((movie, i) => {
             let url;
-            movie.poster_image
-              ? (url = "342" + movie.poster_image)
-              : (url = "500" + movie.card_image);
+            movie.poster_path
+              ? (url = "342" + movie.poster_path)
+              : (url = "500" + movie.backdrop_path);
             return (
               <Card key={i}>
                 <Card.Img
-                  id={i}
+                  id={movie.id}
                   className="card-img"
                   variant="top"
                   src={"https://image.tmdb.org/t/p/w" + url}
                   onClick={this.handleClick}
-                />
+                ></Card.Img>
+                
               </Card>
             );
           })}
@@ -95,13 +108,13 @@ class ViewUser extends React.Component {
         <CardGroup className="card-group">
           {this.state.myList.map((movie, i) => {
             let url;
-            movie.poster_image
-              ? (url = "342" + movie.poster_image)
-              : (url = "500" + movie.card_image);
+            movie.poster_path
+              ? (url = "342" + movie.poster_path)
+              : (url = "500" + movie.backdrop_path);
             return (
               <Card key={i}>
                 <Card.Img
-                  id={i}
+                  id={movie.id}
                   className="card-img"
                   variant="top"
                   src={"https://image.tmdb.org/t/p/w" + url}

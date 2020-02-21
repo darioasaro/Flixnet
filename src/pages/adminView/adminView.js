@@ -18,8 +18,9 @@ class AdminView extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.state = {
-      name: "",
-      description: "",
+      id:"",
+      original_title: "",
+      overview: "",
       year: "",
       genreAdd: "",
       find: "",
@@ -119,14 +120,15 @@ class AdminView extends React.Component {
   async handleAdd(e) {
     let dato = await findMovie(e.target.id);
     let movie = {
-      name: dato.original_title,
-      description: dato.overview,
+      original_title: dato.original_title,
+      overview: dato.overview,
       genre: dato.genres,
       year: dato.relase_date,
-      poster_image: dato.poster_path,
-      card_image: dato.backdrop_path,
+      poster_path: dato.poster_path,
+      backdrop_path: dato.backdrop_path,
       vote_average: dato.vote_average,
-      vote_count: dato.vote_count
+      vote_count: dato.vote_count,
+      id:dato.id
     };
     this.props.addMovie(movie);
   }
@@ -145,7 +147,9 @@ class AdminView extends React.Component {
       description: this.state.description,
       genre: this.state.genreAdd,
       year: this.state.year,
-      poster_image: this.state.image
+      poster_image: this.state.image,
+      id:this.state.id
+      
     };
     this.props.addMovie(movie);
     document.getElementById("form").reset();
