@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 import "../userView/userView.css";
 import dataBase from "../../services/database";
 class ViewUser extends React.Component {
@@ -37,8 +38,11 @@ class ViewUser extends React.Component {
       
     
   }
-  handleClick = async e => {
+  handleClick = e => {
     console.log(e.target.id);
+  };
+
+  deleteMyFavoriteList = async () => {
     let user = await dataBase.getData("username");
     dataBase.setData("List of " + user, []);
     this.setState({
@@ -107,6 +111,7 @@ class ViewUser extends React.Component {
             );
           })}
         </CardGroup>
+        <Button onClick={this.deleteMyFavoriteList}> ERASE ALL </Button>
       </Container>
     );
   }
