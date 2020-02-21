@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import "./singleMovie.css";
 import Button from "react-bootstrap/Button";
 import dataBase from "../../services/database";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 
 class SingleMovie extends React.Component {
   constructor(props) {
@@ -29,11 +29,8 @@ class SingleMovie extends React.Component {
       dataBase.setData("List of " + user, []);
       this.delFav();
     } else {
-      json.forEach((data, i) => {
-        if (data.description === this.props.movie.description) {
-          json.splice(i, 1);
-        }
-      });
+      json.splice(i, 1);
+
       dataBase.setData("List of " + user, json);
     }
   };
@@ -69,10 +66,10 @@ class SingleMovie extends React.Component {
               active
               onClick={this.addFav}
             >
-              Peliculón
+              Agregar a myFav
             </Button>
             <Button variant="secondary" size="lg" active onClick={this.delFav}>
-              Aburrida
+              Eliminar de myFav
             </Button>
           </>
         </div>

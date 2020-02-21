@@ -7,8 +7,6 @@ import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
 
-import { Link } from "react-router-dom";
-
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
