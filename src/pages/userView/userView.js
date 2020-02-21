@@ -37,13 +37,14 @@ class ViewUser extends React.Component {
       
     
   }
-
-  handleClick(e) {
-    
-    
-    this.props.selfMovieView(e.target.id);
-    
-  }
+  handleClick = async e => {
+    console.log(e.target.id);
+    let user = await dataBase.getData("username");
+    dataBase.setData("List of " + user, []);
+    this.setState({
+      myList: []
+    });
+  };
 
   render() {
     return (
