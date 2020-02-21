@@ -61,6 +61,7 @@ class ViewUser extends React.Component {
             );
           })}
         </CardGroup>
+        
         <h2 className="blockquote text-center">Avaiable Movies</h2>
         <CardGroup className="card-group">
           {this.state.avaibleList.map((movie, i) => {
@@ -117,3 +118,17 @@ class ViewUser extends React.Component {
 }
 
 export default ViewUser;
+
+// while (cant < array.length) {
+
+//   for (let i = 0 ; i < 6 && cant < array.length; i++) {
+//       arraux.push(parseInt(array[cant]))
+//       cant++
+// }
+// console.log('arraux',arraux);
+
+
+
+// arraux = []
+
+// }
