@@ -33,6 +33,9 @@ class ViewUser extends React.Component {
 
     console.log(this.state);
   }
+  onLoggout = () => {
+    this.props.inLoggout();
+  };
   handleClick = e => {
     console.log(e.target.id);
   };
@@ -48,6 +51,7 @@ class ViewUser extends React.Component {
   render() {
     return (
       <Container className="container">
+        <Button onClick={this.onLoggout}> loggout </Button>
         <h2 className="blockquote text-center">Popular Movies</h2>
         <CardGroup className="card-group">
           {this.state.topRated.map((movie, i) => {

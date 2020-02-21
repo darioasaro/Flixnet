@@ -20,6 +20,22 @@ class SingleMovie extends React.Component {
       dataBase.setData("List of " + user, favs);
     }
   };
+  delFav = async () => {
+    const user = await dataBase.getData("username");
+    const json = await dataBase.getData("List of " + user);
+
+    if (!json) {
+      dataBase.setData("List of " + user, []);
+      this.delFav();
+    } else {
+      json.forEach((data, i) => {
+        if (data.description === this.props.movie.description) {
+          json.splice(i, 1);
+        }
+      });
+      dataBase.setData("List of " + user, json);
+    }
+  };
 
   render() {
     const pelicula = this.props.movie;
@@ -49,7 +65,7 @@ class SingleMovie extends React.Component {
             >
               Peliculón
             </Button>
-            <Button variant="secondary" size="lg" active>
+            <Button variant="secondary" size="lg" active onClick={this.delFav}>
               Aburrida
             </Button>
           </>
