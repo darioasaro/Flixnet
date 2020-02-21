@@ -61,7 +61,12 @@ class App extends React.Component {
         if (e.password === usuario.password) {
           console.log(usuario.state);
           dataBase.setData("username", usuario.username);
-          dataBase.setData("List of " + usuario.username, []);
+          const data = dataBase.getData("List of " + usuario.username);
+          if (data) {
+            data.then(data => console.log(data));
+          } else {
+            dataBase.setData("List of " + usuario.username, []);
+          }
         } else {
           console.log("te fallo la pass crack");
         }

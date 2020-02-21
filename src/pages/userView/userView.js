@@ -3,12 +3,14 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/Card";
 import "../userView/userView.css";
+import dataBase from "../../services/database";
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      topRated: []
+      topRated: [],
+      myList: []
     };
   }
   async componentDidMount() {
@@ -16,9 +18,15 @@ class ViewUser extends React.Component {
       "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
     );
     let resMovies = await topMovies.json();
+
+    let user = await dataBase.getData("username");
+    let miLista = await dataBase.getData("List of " + user);
+
     this.setState({
-      topRated: resMovies.results.slice(0, 6)
+      topRated: resMovies.results.slice(0, 6),
+      myList: miLista.slice(0, 6)
     });
+
     console.log(this.state);
   }
 
@@ -29,11 +37,11 @@ class ViewUser extends React.Component {
   render() {
     return (
       <Container className="container">
-        <h2 class="blockquote text-center">Popular Movies</h2>
+        <h2 className="blockquote text-center">Popular Movies</h2>
         <CardGroup className="card-group">
-          {this.state.topRated.map(movie => {
+          {this.state.topRated.map((movie, i) => {
             return (
-              <Card>
+              <Card key={i}>
                 <Card.Img
                   id={movie.id}
                   className="card-img"
@@ -45,16 +53,20 @@ class ViewUser extends React.Component {
             );
           })}
         </CardGroup>
-        <h2 class="blockquote text-center">My Movies</h2>
+        <h2 className="blockquote text-center">My Movies</h2>
         <CardGroup className="card-group">
-          {this.state.topRated.map(movie => {
+          {this.state.myList.map((movie, i) => {
+            let url;
+            movie.poster_image
+              ? (url = "342" + movie.poster_image)
+              : (url = "500" + movie.card_image);
             return (
-              <Card>
+              <Card key={i}>
                 <Card.Img
-                  id={movie.id}
+                  id={i}
                   className="card-img"
                   variant="top"
-                  src={"https://image.tmdb.org/t/p/w342" + movie.poster_path}
+                  src={"https://image.tmdb.org/t/p/w" + url}
                   onClick={this.handleClick}
                 />
               </Card>
