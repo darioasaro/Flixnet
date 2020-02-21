@@ -9,8 +9,10 @@ class ViewUser extends React.Component {
     super(props);
 
     this.state = {
+      
       topRated: [],
-      myList: []
+      myList: [],
+      avaibleList:[]
     };
   }
   async componentDidMount() {
@@ -21,16 +23,19 @@ class ViewUser extends React.Component {
 
     let user = await dataBase.getData("username");
     let miLista = await dataBase.getData("List of " + user);
+    let avaibleList = await dataBase.getData('movies');
     if (miLista === null) {
       miLista = this.state.myList;
+      console.log(miLista)
     }
 
     this.setState({
       topRated: resMovies.results.slice(0, 6),
-      myList: miLista.slice(0, 6)
+      myList: miLista,
+      avaibleList : avaibleList
     });
-
-    console.log(this.state);
+      
+    
   }
 
   handleClick(e) {
@@ -56,7 +61,28 @@ class ViewUser extends React.Component {
             );
           })}
         </CardGroup>
-        <h2 className="blockquote text-center">My Movies</h2>
+        <h2 className="blockquote text-center">Avaiable Movies</h2>
+        <CardGroup className="card-group">
+          {this.state.avaibleList.map((movie, i) => {
+            let url;
+            movie.poster_image
+              ? (url = "342" + movie.poster_image)
+              : (url = "500" + movie.card_image);
+            return (
+              <Card key={i}>
+                <Card.Img
+                  id={i}
+                  className="card-img"
+                  variant="top"
+                  src={"https://image.tmdb.org/t/p/w" + url}
+                  onClick={this.handleClick}
+                />
+              </Card>
+            );
+          })}
+        </CardGroup>
+       
+        <h2 className="blockquote text-center">My Top Movies</h2>
         <CardGroup className="card-group">
           {this.state.myList.map((movie, i) => {
             let url;
@@ -79,6 +105,15 @@ class ViewUser extends React.Component {
       </Container>
     );
   }
+
+
+  
+
+      
+      
+        
+
+  
 }
 
 export default ViewUser;

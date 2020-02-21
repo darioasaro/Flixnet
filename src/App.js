@@ -13,7 +13,8 @@ class App extends React.Component {
     super();
     this.state = {
       usuarios: [
-        {
+        { 
+          
           username: "",
           password: ""
         }
@@ -50,7 +51,7 @@ class App extends React.Component {
       let movies = json;
       movies.push(movie);
       dataBase.setData("movies", movies);
-      this.setState({ movie });
+      this.setState({ movie});
     }
   };
 
@@ -85,7 +86,7 @@ class App extends React.Component {
               <Login pedirDatos={this.usarDatos} />
             </Route>
             <Route path="/users">
-              <UserView />
+              <UserView key={this.state.key} />
             </Route>
             <Route path="/admins">
               <AdminView addMovie={this.addMovie} />
