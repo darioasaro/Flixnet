@@ -3,11 +3,15 @@ import Container from "react-bootstrap/Container";
 import "./singleMovie.css";
 import Button from "react-bootstrap/Button";
 import dataBase from "../../services/database";
-import { useParams } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 
 class SingleMovie extends React.Component {
   constructor(props) {
     super();
+    this.state={
+      back : false
+
+    }
   }
   addFav = async () => {
     const user = await dataBase.getData("username");
@@ -20,6 +24,10 @@ class SingleMovie extends React.Component {
       favs.push(this.props.movie);
       dataBase.setData("List of " + user, favs);
     }
+    alert("Ya podes disfrutarla")
+    this.setState({
+      back:true
+    })
   };
   delFav = async () => {
     const user = await dataBase.getData("username");
@@ -50,6 +58,9 @@ class SingleMovie extends React.Component {
     pelicula.backdrop_path
       ? (url = "500" + pelicula.backdrop_path)
       : (url = "342" + pelicula.poster_path);
+       if (this.state.back === true)
+      // return <Redirect to={`/movie/${this.state.idMovie}`}/>
+      return <Redirect to={"/users"} />;
     return (
       <Container className="myContainer">
         <div>
