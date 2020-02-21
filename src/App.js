@@ -7,18 +7,22 @@ import SingleMovie from "./pages/singleMovie/SingleMovie";
 import Layout from "./components/Layout";
 import { getUsers } from "./services/users";
 import dataBase from "./services/database";
+import {findMovie} from "./services/movies";
 
 class App extends React.Component {
   constructor() {
     super();
+    this.selfMovieView = this.selfMovieView.bind(this)
     this.state = {
       usuarios: [
-        {
+        { 
+          
           username: "",
           password: ""
         }
       ],
-      movie: [{ movie: "" }]
+      movie:{}
+      // movie: [{ movie: "" }]
     };
   }
 
@@ -50,7 +54,7 @@ class App extends React.Component {
       let movies = json;
       movies.push(movie);
       dataBase.setData("movies", movies);
-      this.setState({ movie });
+      this.setState({ movie});
     }
   };
 
@@ -76,6 +80,23 @@ class App extends React.Component {
     });
   };
 
+   async selfMovieView(id){
+     
+     
+    let mov =  await findMovie(id)
+    
+     this.setState({
+      movie:mov
+    })
+    console.log(this.state.movie);
+    
+    
+    
+      
+    
+    
+  }
+
   render() {
     return (
       <Router>
@@ -85,7 +106,7 @@ class App extends React.Component {
               <Login pedirDatos={this.usarDatos} />
             </Route>
             <Route path="/users">
-              <UserView />
+              <UserView selfMovieView={this.selfMovieView}key={this.state.key} />
             </Route>
             <Route path="/admins">
               <AdminView addMovie={this.addMovie} />
