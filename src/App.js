@@ -37,6 +37,7 @@ class App extends React.Component {
         usuarios: data
       });
     });
+    dataBase.setData("movies", []);
   };
 
   test = async () => {
@@ -61,6 +62,7 @@ class App extends React.Component {
       dataBase.setData("movies", movies);
       this.setState({ movie });
     }
+    console.log('movie',movie)
   };
   loggout = () => {
     this.setState({ redirect: null });

@@ -18,7 +18,7 @@ class AdminView extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.state = {
-      id:"",
+      id: "",
       original_title: "",
       overview: "",
       year: "",
@@ -26,6 +26,8 @@ class AdminView extends React.Component {
       find: "",
       table: false,
       movies: [],
+      addedMovie: false,
+      addedMovies:[],
       current_page: 0,
       pages: 0,
       genres: [
@@ -113,6 +115,16 @@ class AdminView extends React.Component {
 
   //Borra de la base de datos todas las peliculas
 
+   componentDidMount=async ()=>{
+   let addMovies = await dataBase.getData('movies')
+   let movies = addMovies;
+   this.setState({
+
+    addedMovies:movies})
+
+    console.log('addedmovies',this.state.addedMovies);
+
+  }
   deleteAllMovies = () => {
     dataBase.deleteData("movies");
   };
@@ -123,14 +135,26 @@ class AdminView extends React.Component {
       original_title: dato.original_title,
       overview: dato.overview,
       genre: dato.genres,
-      year: dato.relase_date,
+      release_date: dato.release_date,
       poster_path: dato.poster_path,
       backdrop_path: dato.backdrop_path,
       vote_average: dato.vote_average,
       vote_count: dato.vote_count,
-      id:dato.id
+      id: dato.id
     };
+   
+    let addMovies = await dataBase.getData("movies");
+    let movies = addMovies;
+    this.setState({
+      addedMovies: movies
+    });
     this.props.addMovie(movie);
+    this.setState({
+      addedMovies: movies
+    });
+     this.setState({
+      addedMovie: true
+    })
   }
   //Setea los estados de la pelicula que se agrega manualmente
   handleChange(e) {
@@ -148,9 +172,11 @@ class AdminView extends React.Component {
       genre: this.state.genreAdd,
       year: this.state.year,
       poster_image: this.state.image,
-      id:this.state.id
-      
+      id: this.state.id
     };
+    this.setState({
+      addedMovie: true
+    });
     this.props.addMovie(movie);
     document.getElementById("form").reset();
   }
@@ -184,18 +210,22 @@ class AdminView extends React.Component {
     this.props.inLoggout();
   };
 
+  deleteAdd = (e) =>{
+    console.log('delete',e.target.id)
+  }
+
   render() {
     return (
       <Container className="container">
-        <Button onClick={this.onLoggout}> loggout </Button>
+        {/* <Button onClick={this.onLoggout}> loggout </Button> */}
         <h1 className="display-3">Admin Panel</h1>
         <h3 className="display-6">Movies</h3>
 
         <h3 className="display-6">Add Movie from API</h3>
         <h5>Search</h5>
-        <Button onClick={this.deleteAllMovies} variant="primary">
+        {/* <Button onClick={this.deleteAllMovies} variant="primary">
           DELETE
-        </Button>
+        </Button> */}
 
         <InputGroup className="mb-3">
           <Form.Control
@@ -249,10 +279,53 @@ class AdminView extends React.Component {
                 ))}
               </tbody>
             </Table>
-
-            <Pagination>{this.state.pages}</Pagination>
           </>
         )}
+
+<h3 className="display-6">Added Movies</h3>
+        {/* {this.state.addMovie && ( */}
+          <>
+            <Table striped bordered hover variant="dark">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Tittle</th>
+                  <th>Year</th>
+                  <th>Genre</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.addedMovies.map(movie => (
+                  <tr key={movie.id}>
+                    <td>{movie.id}</td>
+                    <td>{movie.original_title}</td>
+                    <td>{movie.release_date}</td>
+                    <td>
+                      {movie.genre.map((gnre) => {
+                        return gnre.name + "-";
+                          
+                       
+                        
+                      })}
+                    </td>
+                    <td>
+                      <Button
+                        id={movie.id}
+                        onClick={this.deleteAdd}
+                        variant="primary"
+                        type="submit"
+                      >
+                        delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+
+            
+          </>
+        {/* )} */}
 
         <Form id="form" className="adminForm">
           <h3 className="display-6">Add Movie</h3>
