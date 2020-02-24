@@ -63,7 +63,7 @@ class ViewUser extends React.Component {
       return <Redirect to={"/movie"} />;
     return (
       <Container className="container">
-        <Button onClick={this.onLoggout}> loggout </Button>
+        {/* <Button onClick={this.onLoggout}> loggout </Button> */}
         <h2 className="blockquote text-center">Popular Movies</h2>
         <CardGroup className="card-group">
           {this.state.topRated.map((movie, i) => {

@@ -8,14 +8,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
   width: 100%;
-  color: white;
-  background-image: url("/fondo.jpg");
+  color:white;
+  background-image: url("/fondo6.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
-  background-color: #202020 !important;
+  background-repeat: cover;
+  background-position: center;
+  background-attachment:fixed;
+  background-color: transparent !important;
 }
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.container{
+  color: white;
+  background-color: transparent !important;
 }

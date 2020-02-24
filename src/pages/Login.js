@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import "../pages/Login.css";
+import Container from "react-bootstrap/Container";
 
 class Login extends Component {
   constructor(props) {
@@ -23,31 +25,40 @@ class Login extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            onChange={this.onChange}
-            name="username"
-          />
-        </Form.Group>
+      <Container className="container">
+        <h1>
+          Welcome to FLIXNET
+          <p>
+            <span>Sing in</span>
+          </p>
+        </h1>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={this.onChange}
-            name="password"
-          />
-        </Form.Group>
+        <Form className="form-group" onSubmit={this.handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>User</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter username"
+              onChange={this.onChange}
+              name="username"
+            />
+          </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={this.onChange}
+              name="password"
+            />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
     );
   }
 }

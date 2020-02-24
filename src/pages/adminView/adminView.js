@@ -205,26 +205,27 @@ class AdminView extends React.Component {
 
     console.log(arr);
   }
+  //Logout 
   onLoggout = () => {
     this.props.inLoggout();
   };
-
+ //Toma el id del boton y elimina la pelicula de la lista de disponibles
   deleteAdd = async e => {
     let id = e.target.id
     let movies = await dataBase.getData('movies')
     movies = movies.filter(movie=>movie.id != id)  
     dataBase.setData('movies',movies)
+   //elimina la pelicula de la lista de cada usuario donde estaba disponible
     let users = await getUsers()
      users.map(async (user)=>{
       let miLista = await dataBase.getData("List of " + user.username);
-      console.log('mi lista',miLista);
       
       if(miLista){
       miLista = miLista.filter(miMovie=>miMovie.id != id)
       dataBase.setData("List of "+user.username,miLista)
       }
     })
-    console.log(users);
+   
     
 
     this.setState({
@@ -233,6 +234,12 @@ class AdminView extends React.Component {
     })
     
   };
+  //cierra la tabla de busqueda
+  close=() => {
+    this.setState({
+      table:false
+    })
+  }
 
   render() {
     return (
@@ -261,6 +268,7 @@ class AdminView extends React.Component {
         </InputGroup>
         {this.state.table && (
           <>
+    
             <Table striped bordered hover variant="dark">
               <thead>
                 <tr>
@@ -268,6 +276,7 @@ class AdminView extends React.Component {
                   <th>Tittle</th>
                   <th>Year</th>
                   <th>Genre</th>
+                  <th><Button variant="outline-danger" onClick={this.close}>Close</Button></th>
                 </tr>
               </thead>
               <tbody>
@@ -303,7 +312,7 @@ class AdminView extends React.Component {
          )} 
 
         <h3 className="display-6">Added Movies</h3>
-        {/* {this.state.addMovie && ( */}
+        {/* {this.state.table && ( */}
           <>
             <Table striped bordered hover variant="dark">
               <thead>

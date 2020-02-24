@@ -3,10 +3,19 @@
   height: 100%;
   width: 100%;
   margin: 0;
-  color: white;
   text-align: center;
+  
+    text-align:center;
+    color: #fff;
+    background: #eee;
+    font-family: impact;
+    font-size: 20px;
+    letter-spacing: 0;
+    text-shadow: -3px -3px 3px #0000DF, 3px -3px 3px #0000DF, -3px 3px 3px #0000DF, 3px 3px 3px #0000DF;
+    
 }
 .adminForm {
-  color: white;
+  
   margin-top: 6%;
 }
+
