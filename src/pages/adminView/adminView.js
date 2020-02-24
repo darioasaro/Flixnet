@@ -27,7 +27,8 @@ class AdminView extends React.Component {
       table: false,
       movies: [],
       addedMovie: false,
-      addedMovies:[],
+      deleted:false,
+      addedMovies: [],
       current_page: 0,
       pages: 0,
       genres: [
@@ -115,16 +116,15 @@ class AdminView extends React.Component {
 
   //Borra de la base de datos todas las peliculas
 
-   componentDidMount=async ()=>{
-   let addMovies = await dataBase.getData('movies')
-   let movies = addMovies;
-   this.setState({
+  componentDidMount = async () => {
+    let addMovies = await dataBase.getData("movies");
+    let movies = addMovies;
+    this.setState({
+      addedMovies: movies
+    });
 
-    addedMovies:movies})
-
-    console.log('addedmovies',this.state.addedMovies);
-
-  }
+    console.log("addedmovies", this.state.addedMovies);
+  };
   deleteAllMovies = () => {
     dataBase.deleteData("movies");
   };
@@ -142,19 +142,17 @@ class AdminView extends React.Component {
       vote_count: dato.vote_count,
       id: dato.id
     };
-   
+    this.props.addMovie(movie);
     let addMovies = await dataBase.getData("movies");
     let movies = addMovies;
+
     this.setState({
+      addedMovie: true,
       addedMovies: movies
+      
     });
-    this.props.addMovie(movie);
-    this.setState({
-      addedMovies: movies
-    });
-     this.setState({
-      addedMovie: true
-    })
+    //this.forceUpdate()
+   
   }
   //Setea los estados de la pelicula que se agrega manualmente
   handleChange(e) {
@@ -210,9 +208,17 @@ class AdminView extends React.Component {
     this.props.inLoggout();
   };
 
-  deleteAdd = (e) =>{
-    console.log('delete',e.target.id)
-  }
+  deleteAdd = async e => {
+    let id = e.target.id
+    let movies = await dataBase.getData('movies')
+    movies = movies.filter(movie=>movie.id != id)  
+    dataBase.setData('movies',movies)
+    this.setState({
+      deleted : true,
+      addedMovies:movies
+    })
+    
+  };
 
   render() {
     return (
@@ -280,9 +286,9 @@ class AdminView extends React.Component {
               </tbody>
             </Table>
           </>
-        )}
+         )} 
 
-<h3 className="display-6">Added Movies</h3>
+        <h3 className="display-6">Added Movies</h3>
         {/* {this.state.addMovie && ( */}
           <>
             <Table striped bordered hover variant="dark">
@@ -301,11 +307,8 @@ class AdminView extends React.Component {
                     <td>{movie.original_title}</td>
                     <td>{movie.release_date}</td>
                     <td>
-                      {movie.genre.map((gnre) => {
+                      {movie.genre.map(gnre => {
                         return gnre.name + "-";
-                          
-                       
-                        
                       })}
                     </td>
                     <td>
@@ -322,8 +325,6 @@ class AdminView extends React.Component {
                 ))}
               </tbody>
             </Table>
-
-            
           </>
         {/* )} */}
 
