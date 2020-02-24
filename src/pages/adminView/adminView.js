@@ -9,6 +9,7 @@ import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import { findMovie } from "../../services/movies";
 import dataBase from "../../services/database";
+import {getUsers} from "../../services/users.js"
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -213,6 +214,19 @@ class AdminView extends React.Component {
     let movies = await dataBase.getData('movies')
     movies = movies.filter(movie=>movie.id != id)  
     dataBase.setData('movies',movies)
+    let users = await getUsers()
+     users.map(async (user)=>{
+      let miLista = await dataBase.getData("List of " + user.username);
+      console.log('mi lista',miLista);
+      
+      if(miLista){
+      miLista = miLista.filter(miMovie=>miMovie.id != id)
+      dataBase.setData("List of "+user.username,miLista)
+      }
+    })
+    console.log(users);
+    
+
     this.setState({
       deleted : true,
       addedMovies:movies
