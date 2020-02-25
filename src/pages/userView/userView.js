@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
+import { checkUsers } from "../../services/users.js";
 
 class ViewUser extends React.Component {
   constructor(props) {
@@ -15,28 +16,33 @@ class ViewUser extends React.Component {
       topRated: [],
       myList: [],
       avaibleList: [],
-      idMovie: null
+      idMovie: null,
+      validator: true
     };
   }
   async componentDidMount() {
-    let topMovies = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
-    );
-    let resMovies = await topMovies.json();
+    if (checkUsers()) {
+      let topMovies = await fetch(
+        "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
+      );
+      let resMovies = await topMovies.json();
 
-    let user = await dataBase.getData("username");
-    let miLista = await dataBase.getData("List of " + user);
-    let avaibleList = await dataBase.getData("movies");
-    if (miLista === null) {
-      miLista = this.state.myList;
-      console.log(miLista);
+      let user = await dataBase.getData("username");
+      let miLista = await dataBase.getData("List of " + user);
+      let avaibleList = await dataBase.getData("movies");
+      if (miLista === null) {
+        miLista = this.state.myList;
+        console.log(miLista);
+      }
+
+      this.setState({
+        topRated: resMovies.results.slice(0, 6),
+        myList: miLista,
+        avaibleList: avaibleList
+      });
+    } else {
+      this.setState({ validator: false });
     }
-
-    this.setState({
-      topRated: resMovies.results.slice(0, 6),
-      myList: miLista,
-      avaibleList: avaibleList
-    });
   }
   onLoggout = () => {
     this.props.inLoggout();
@@ -58,6 +64,7 @@ class ViewUser extends React.Component {
   };
 
   render() {
+    if (!this.state.validator) return <Redirect to={"/"} />;
     if (this.state.idMovie)
       // return <Redirect to={`/movie/${this.state.idMovie}`}/>
       return <Redirect to={"/movie"} />;

@@ -9,7 +9,8 @@ import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import { findMovie } from "../../services/movies";
 import dataBase from "../../services/database";
-import {getUsers} from "../../services/users.js"
+import { getUsers, checkUsers } from "../../services/users.js";
+import { Redirect } from "react-router-dom";
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class AdminView extends React.Component {
       table: false,
       movies: [],
       addedMovie: false,
-      deleted:false,
+      deleted: false,
       addedMovies: [],
       current_page: 0,
       pages: 0,
@@ -109,7 +110,8 @@ class AdminView extends React.Component {
           id: 37,
           name: "Western"
         }
-      ]
+      ],
+      validator: true
     };
   }
 
@@ -118,13 +120,17 @@ class AdminView extends React.Component {
   //Borra de la base de datos todas las peliculas
 
   componentDidMount = async () => {
-    let addMovies = await dataBase.getData("movies");
-    let movies = addMovies;
-    this.setState({
-      addedMovies: movies
-    });
+    if (checkUsers()) {
+      let addMovies = await dataBase.getData("movies");
+      let movies = addMovies;
+      this.setState({
+        addedMovies: movies
+      });
 
-    console.log("addedmovies", this.state.addedMovies);
+      console.log("addedmovies", this.state.addedMovies);
+    } else {
+      this.setState({ validator: false });
+    }
   };
   deleteAllMovies = () => {
     dataBase.deleteData("movies");
@@ -150,10 +156,8 @@ class AdminView extends React.Component {
     this.setState({
       addedMovie: true,
       addedMovies: movies
-      
     });
     //this.forceUpdate()
-   
   }
   //Setea los estados de la pelicula que se agrega manualmente
   handleChange(e) {
@@ -205,43 +209,41 @@ class AdminView extends React.Component {
 
     console.log(arr);
   }
-  //Logout 
+  //Logout
   onLoggout = () => {
     this.props.inLoggout();
   };
- //Toma el id del boton y elimina la pelicula de la lista de disponibles
+  //Toma el id del boton y elimina la pelicula de la lista de disponibles
   deleteAdd = async e => {
-    let id = e.target.id
-    let movies = await dataBase.getData('movies')
-    movies = movies.filter(movie=>movie.id != id)  
-    dataBase.setData('movies',movies)
-   //elimina la pelicula de la lista de cada usuario donde estaba disponible
-    let users = await getUsers()
-     users.map(async (user)=>{
+    let id = e.target.id;
+    let movies = await dataBase.getData("movies");
+    movies = movies.filter(movie => movie.id !== id);
+    dataBase.setData("movies", movies);
+    //elimina la pelicula de la lista de cada usuario donde estaba disponible
+    let users = await getUsers();
+    users.map(async user => {
       let miLista = await dataBase.getData("List of " + user.username);
-      
-      if(miLista){
-      miLista = miLista.filter(miMovie=>miMovie.id != id)
-      dataBase.setData("List of "+user.username,miLista)
+
+      if (miLista) {
+        miLista = miLista.filter(miMovie => miMovie.id !== id);
+        dataBase.setData("List of " + user.username, miLista);
       }
-    })
-   
-    
+    });
 
     this.setState({
-      deleted : true,
-      addedMovies:movies
-    })
-    
+      deleted: true,
+      addedMovies: movies
+    });
   };
   //cierra la tabla de busqueda
-  close=() => {
+  close = () => {
     this.setState({
-      table:false
-    })
-  }
+      table: false
+    });
+  };
 
   render() {
+    if (!this.state.validator) return <Redirect to={"/"} />;
     return (
       <Container className="container">
         {/* <Button onClick={this.onLoggout}> loggout </Button> */}
@@ -268,7 +270,6 @@ class AdminView extends React.Component {
         </InputGroup>
         {this.state.table && (
           <>
-    
             <Table striped bordered hover variant="dark">
               <thead>
                 <tr>
@@ -276,7 +277,11 @@ class AdminView extends React.Component {
                   <th>Tittle</th>
                   <th>Year</th>
                   <th>Genre</th>
-                  <th><Button variant="outline-danger" onClick={this.close}>Close</Button></th>
+                  <th>
+                    <Button variant="outline-danger" onClick={this.close}>
+                      Close
+                    </Button>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -309,46 +314,46 @@ class AdminView extends React.Component {
               </tbody>
             </Table>
           </>
-         )} 
+        )}
 
         <h3 className="display-6">Added Movies</h3>
         {/* {this.state.table && ( */}
-          <>
-            <Table striped bordered hover variant="dark">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Tittle</th>
-                  <th>Year</th>
-                  <th>Genre</th>
+        <>
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Tittle</th>
+                <th>Year</th>
+                <th>Genre</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.addedMovies.map(movie => (
+                <tr key={movie.id}>
+                  <td>{movie.id}</td>
+                  <td>{movie.original_title}</td>
+                  <td>{movie.release_date}</td>
+                  <td>
+                    {movie.genre.map(gnre => {
+                      return gnre.name + "-";
+                    })}
+                  </td>
+                  <td>
+                    <Button
+                      id={movie.id}
+                      onClick={this.deleteAdd}
+                      variant="primary"
+                      type="submit"
+                    >
+                      delete
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {this.state.addedMovies.map(movie => (
-                  <tr key={movie.id}>
-                    <td>{movie.id}</td>
-                    <td>{movie.original_title}</td>
-                    <td>{movie.release_date}</td>
-                    <td>
-                      {movie.genre.map(gnre => {
-                        return gnre.name + "-";
-                      })}
-                    </td>
-                    <td>
-                      <Button
-                        id={movie.id}
-                        onClick={this.deleteAdd}
-                        variant="primary"
-                        type="submit"
-                      >
-                        delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </>
+              ))}
+            </tbody>
+          </Table>
+        </>
         {/* )} */}
 
         <Form id="form" className="adminForm">

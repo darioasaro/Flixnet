@@ -10,7 +10,7 @@ class NavBar extends React.Component {
         <Navbar.Brand href="#home">FlixNet</Navbar.Brand>
         <Nav className="mr-auto">
           <Link className="nav-link" to="/">
-            Login
+            Loggin
           </Link>
           <Link className="nav-link" to="/admins">
             Admin

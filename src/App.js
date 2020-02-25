@@ -26,7 +26,7 @@ class App extends React.Component {
           password: ""
         }
       ],
-      redirect: null,
+      redirect: "null",
       movie: [{ movie: "" }]
     };
   }
@@ -62,10 +62,10 @@ class App extends React.Component {
       dataBase.setData("movies", movies);
       this.setState({ movie });
     }
-    console.log('movie',movie)
+    console.log("movie", movie);
   };
   loggout = () => {
-    this.setState({ redirect: null });
+    this.setState({ redirect: "null" });
   };
   usarDatos = e => {
     const usuarios = this.state.usuarios;
@@ -73,7 +73,6 @@ class App extends React.Component {
       if (e.username === usuario.username) {
         if (e.password === usuario.password) {
           dataBase.setData("username", usuario.username);
-
           this.setState({ redirect: usuario.state });
         } else {
           console.log("te fallo la pass crack");
@@ -97,7 +96,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        {this.state.redirect ? (
+        {this.state.redirect !== "null" ? (
           <Redirect to={"/" + this.state.redirect} />
         ) : (
           <Redirect to={"/"} />
