@@ -1,9 +1,11 @@
 .container {
+  display: flex;
   background-color: #202020;
   height: 100%;
   width: 100%;
   margin: 0;
   text-align: center;
+ 
   
     text-align:center;
     color: #fff;

@@ -11,3 +11,9 @@ export const findMovie = async id => {
 
   return dato;
 };
+
+export const getGenre = async () =>{
+  let response = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US')
+  let genres = await response.json()
+  return genres
+}

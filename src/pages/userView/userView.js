@@ -3,19 +3,24 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
+import {getGenre} from '../../services/movies'
 
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.filter = this.filter.bind(this)
     this.state = {
       topRated: [],
       myList: [],
       avaibleList: [],
-      idMovie: null
+      genres:[],
+      idMovie: null,
+      filterGenre:"All"
     };
   }
   async componentDidMount() {
@@ -29,14 +34,21 @@ class ViewUser extends React.Component {
     let avaibleList = await dataBase.getData("movies");
     if (miLista === null) {
       miLista = this.state.myList;
-      console.log(miLista);
+      //console.log(miLista);
     }
+    let generos = await getGenre()
+    generos.genres.unshift({id:0,name:'All'})
+    
+    
+    
 
     this.setState({
       topRated: resMovies.results.slice(0, 6),
       myList: miLista,
-      avaibleList: avaibleList
+      avaibleList: avaibleList,
+      genres : generos.genres
     });
+
   }
   onLoggout = () => {
     this.props.inLoggout();
@@ -56,17 +68,38 @@ class ViewUser extends React.Component {
       myList: []
     });
   };
-
+  filter(e){
+    this.setState({
+      filterGenre:e.target.value
+    })
+   
+    
+  }
   render() {
     if (this.state.idMovie)
       // return <Redirect to={`/movie/${this.state.idMovie}`}/>
       return <Redirect to={"/movie"} />;
     return (
       <Container className="container">
+        <div className="sidenav">
+          <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Label>Search by Genre</Form.Label>
+            <Form.Control onChange={this.filter} as="select">
+              {this.state.genres.map(genero=><option>{genero.name}</option>)}
+              <Button type="submit" onClick={this.handleFilter}> </Button>
+              
+            </Form.Control>
+            
+            
+          </Form.Group> 
+        </div>
         {/* <Button onClick={this.onLoggout}> loggout </Button> */}
         <h2 className="blockquote text-center">Popular Movies</h2>
         <CardGroup className="card-group">
-          {this.state.topRated.map((movie, i) => {
+          {
+          
+          this.state.topRated.map((movie, i) => {
+            
             return (
               <Card key={i}>
                 <Card.Img
@@ -78,7 +111,8 @@ class ViewUser extends React.Component {
                 />
               </Card>
             );
-          })}
+          }
+          )}
         </CardGroup>
 
         <h2 className="blockquote text-center">Avaiable Movies</h2>
@@ -88,6 +122,7 @@ class ViewUser extends React.Component {
             movie.poster_path
               ? (url = "342" + movie.poster_path)
               : (url = "500" + movie.backdrop_path);
+              if(this.state.filterGenre ==='All'){
             return (
               <Card key={i}>
                 <Card.Img
@@ -99,6 +134,24 @@ class ViewUser extends React.Component {
                 ></Card.Img>
               </Card>
             );
+              }
+              else if(movie.genre.map(genero=>genero.name == this.state.filterGenre)) {
+               
+                return (
+                  console.log('nombre de genero',movie.genre.name)
+                  
+                  // <Card key={i}>
+                  //   <Card.Img
+                  //     id={movie.id}
+                  //     className="card-img"
+                  //     variant="top"
+                  //     src={"https://image.tmdb.org/t/p/w" + url}
+                  //     onClick={this.handleClick}
+                  //   ></Card.Img>
+                  // </Card>
+                );
+
+              }
           })}
         </CardGroup>
 
