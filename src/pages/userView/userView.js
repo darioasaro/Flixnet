@@ -8,21 +8,21 @@ import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
 import { checkUsers } from "../../services/users.js";
-import {getGenre} from '../../services/movies'
+import { getGenre } from "../../services/movies";
 
 class ViewUser extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
-    this.filter = this.filter.bind(this)
+    this.filter = this.filter.bind(this);
     this.state = {
       topRated: [],
       myList: [],
       avaibleList: [],
-      genres:[],
+      genres: [],
       idMovie: null,
-      filterGenre:"All",
-      idMovie: null,
+      filterGenre: "All",
+      idMovies: null,
       validator: true
     };
   }
@@ -33,28 +33,22 @@ class ViewUser extends React.Component {
       );
       let resMovies = await topMovies.json();
 
-    let user = await dataBase.getData("username");
-    let miLista = await dataBase.getData("List of " + user);
-    let avaibleList = await dataBase.getData("movies");
-    if (miLista === null) {
-      miLista = this.state.myList;
-      //console.log(miLista);
-    }
-    let generos = await getGenre()
-    generos.genres.unshift({id:0,name:'All'})
-    
-    
-    
+      let user = await dataBase.getData("username");
+      let miLista = await dataBase.getData("List of " + user);
+      let avaibleList = await dataBase.getData("movies");
+      if (miLista === null) {
+        miLista = this.state.myList;
+        //console.log(miLista);
+      }
+      let generos = await getGenre();
+      generos.genres.unshift({ id: 0, name: "All" });
 
-    this.setState({
-      topRated: resMovies.results.slice(0, 6),
-      myList: miLista,
-      avaibleList: avaibleList,
-      genres : generos.genres
-    });
-
-      
-
+      this.setState({
+        topRated: resMovies.results.slice(0, 6),
+        myList: miLista,
+        avaibleList: avaibleList,
+        genres: generos.genres
+      });
     } else {
       this.setState({ validator: false });
     }
@@ -77,12 +71,10 @@ class ViewUser extends React.Component {
       myList: []
     });
   };
-  filter(e){
+  filter(e) {
     this.setState({
-      filterGenre:e.target.value
-    })
-   
-    
+      filterGenre: e.target.value
+    });
   }
   render() {
     if (!this.state.validator) return <Redirect to={"/"} />;
@@ -94,22 +86,18 @@ class ViewUser extends React.Component {
         <div className="sidenav">
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Search by Genre</Form.Label>
-            <Form.Control onChange={this.filter} as="select">
-              {this.state.genres.map(genero=><option>{genero.name}</option>)}
-              <Button type="submit" onClick={this.handleFilter}> </Button>
-              
+            <Form.Control as="select" onChange={this.filter}>
+              {this.state.genres.map(genero => (
+                <option key={genero.id}>{genero.name}</option>
+              ))}
+              <Button type="submit" onClick={this.handleFilter}></Button>
             </Form.Control>
-            
-            
-          </Form.Group> 
+          </Form.Group>
         </div>
         {/* <Button onClick={this.onLoggout}> loggout </Button> */}
         <h2 className="blockquote text-center">Popular Movies</h2>
         <CardGroup className="card-group">
-          {
-          
-          this.state.topRated.map((movie, i) => {
-            
+          {this.state.topRated.map((movie, i) => {
             return (
               <Card key={i}>
                 <Card.Img
@@ -121,8 +109,7 @@ class ViewUser extends React.Component {
                 />
               </Card>
             );
-          }
-          )}
+          })}
         </CardGroup>
 
         <h2 className="blockquote text-center">Avaiable Movies</h2>
@@ -132,55 +119,38 @@ class ViewUser extends React.Component {
             movie.poster_path
               ? (url = "342" + movie.poster_path)
               : (url = "500" + movie.backdrop_path);
-              if(this.state.filterGenre ==='All'){
-            return (
-              <Card key={i}>
-                <Card.Img
-                  id={movie.id}
-                  className="card-img"
-                  variant="top"
-                  src={"https://image.tmdb.org/t/p/w" + url}
-                  onClick={this.handleClick}
-                ></Card.Img>
-              </Card>
-            );
-              }
-              else{ 
-                
-                let dev = movie.genre.map(genero=>{
-                  
-                  if(genero.name==this.state.filterGenre){
-                    console.log('cada movie',movie)
-                    return (
-                      <Card key={i}>
-                    <Card.Img
-                      id={movie.id}
-                      className="card-img"
-                      variant="top"
-                      src={"https://image.tmdb.org/t/p/w" + url}
-                      onClick={this.handleClick}
-                    ></Card.Img>
-                  </Card>
-                   
-                    )
-                  }
-                  
-                   
-                  
-                  
-                
-               
-                  
-                  
-                  }) 
-               
-                
-                  
-                 return dev
-                 
-              
+            if (this.state.filterGenre === "All") {
+              return (
+                <Card key={i}>
+                  <Card.Img
+                    id={movie.id}
+                    className="card-img"
+                    variant="top"
+                    src={"https://image.tmdb.org/t/p/w" + url}
+                    onClick={this.handleClick}
+                  ></Card.Img>
+                </Card>
+              );
+            } else {
+              let dev = movie.genre.map(genero => {
+                if (genero.name === this.state.filterGenre) {
+                  console.log("cada movie", movie);
+                  return (
+                    <Card key={i}>
+                      <Card.Img
+                        id={movie.id}
+                        className="card-img"
+                        variant="top"
+                        src={"https://image.tmdb.org/t/p/w" + url}
+                        onClick={this.handleClick}
+                      ></Card.Img>
+                    </Card>
+                  );
+                }
+              });
 
-              }
+              return dev;
+            }
           })}
         </CardGroup>
 
