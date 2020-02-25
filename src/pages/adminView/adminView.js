@@ -9,7 +9,8 @@ import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import { findMovie } from "../../services/movies";
 import dataBase from "../../services/database";
-import {getUsers} from "../../services/users.js"
+import {getUsers,checkUsers} from "../../services/users.js"
+import {Redirect} from 'react-router-dom'
 
 class AdminView extends React.Component {
   constructor(props) {

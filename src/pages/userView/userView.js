@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
+import { checkUsers } from "../../services/users.js";
 import {getGenre} from '../../services/movies'
 
 class ViewUser extends React.Component {
@@ -20,14 +21,17 @@ class ViewUser extends React.Component {
       avaibleList: [],
       genres:[],
       idMovie: null,
-      filterGenre:"All"
+      filterGenre:"All",
+      idMovie: null,
+      validator: true
     };
   }
   async componentDidMount() {
-    let topMovies = await fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
-    );
-    let resMovies = await topMovies.json();
+    if (checkUsers()) {
+      let topMovies = await fetch(
+        "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
+      );
+      let resMovies = await topMovies.json();
 
     let user = await dataBase.getData("username");
     let miLista = await dataBase.getData("List of " + user);
@@ -49,6 +53,11 @@ class ViewUser extends React.Component {
       genres : generos.genres
     });
 
+      
+
+    } else {
+      this.setState({ validator: false });
+    }
   }
   onLoggout = () => {
     this.props.inLoggout();
@@ -76,6 +85,7 @@ class ViewUser extends React.Component {
     
   }
   render() {
+    if (!this.state.validator) return <Redirect to={"/"} />;
     if (this.state.idMovie)
       // return <Redirect to={`/movie/${this.state.idMovie}`}/>
       return <Redirect to={"/movie"} />;
@@ -135,21 +145,40 @@ class ViewUser extends React.Component {
               </Card>
             );
               }
-              else if(movie.genre.map(genero=>genero.name == this.state.filterGenre)) {
-               
-                return (
-                  console.log('nombre de genero',movie.genre.name)
+              else{ 
+                
+                let dev = movie.genre.map(genero=>{
                   
-                  // <Card key={i}>
-                  //   <Card.Img
-                  //     id={movie.id}
-                  //     className="card-img"
-                  //     variant="top"
-                  //     src={"https://image.tmdb.org/t/p/w" + url}
-                  //     onClick={this.handleClick}
-                  //   ></Card.Img>
-                  // </Card>
-                );
+                  if(genero.name==this.state.filterGenre){
+                    console.log('cada movie',movie)
+                    return (
+                      <Card key={i}>
+                    <Card.Img
+                      id={movie.id}
+                      className="card-img"
+                      variant="top"
+                      src={"https://image.tmdb.org/t/p/w" + url}
+                      onClick={this.handleClick}
+                    ></Card.Img>
+                  </Card>
+                   
+                    )
+                  }
+                  
+                   
+                  
+                  
+                
+               
+                  
+                  
+                  }) 
+               
+                
+                  
+                 return dev
+                 
+              
 
               }
           })}

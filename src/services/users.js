@@ -3,3 +3,7 @@ export const getUsers = async () => {
     .then(response => response.json())
     .then(data => data);
 };
+
+export const checkUsers = () => {
+  return localStorage.getItem("username") ? true : false;
+};
