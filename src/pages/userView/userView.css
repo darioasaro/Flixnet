@@ -11,7 +11,7 @@
 .cartas-group {
   display: flex !important;
  flex-flow:row wrap !important;
-  margin-left: 3.5%;
+  margin-left: 2%;
   justify-content: center;
   width: auto;
   align-self: center;

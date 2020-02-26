@@ -1,6 +1,7 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+import CardGroup from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "../userView/userView.css";
@@ -21,8 +22,9 @@ class ViewUser extends React.Component {
       genres: [],
       idMovie: null,
       filterGenre: "All",
-      idMovies: null,
+      idMovie: null,
       validator: true
+      
     };
   }
   async componentDidMount() {
@@ -113,7 +115,7 @@ class ViewUser extends React.Component {
           })}
         </div>
 
-        <h2 className="blockquote text-center">Movies</h2>
+        <h2 className="blockquote text-center">Avaiable Movies</h2>
         <div className="cartas-group">
           {this.state.avaibleList.map((movie, i) => {
             let url;
@@ -122,7 +124,7 @@ class ViewUser extends React.Component {
               : (url = "500" + movie.backdrop_path);
             if (this.state.filterGenre === "All") {
               return (
-                <Card className="card" key={i}>
+                <Card className="card"key={i}>
                   <Card.Img
                     id={movie.id}
                     className="card-img"
@@ -134,7 +136,8 @@ class ViewUser extends React.Component {
               );
             } else {
               let dev = movie.genre.map(genero => {
-                if (genero.name === this.state.filterGenre) {
+                if (genero.name == this.state.filterGenre) {
+                  
                   return (
                     <Card className="card" key={i}>
                       <Card.Img
@@ -148,6 +151,7 @@ class ViewUser extends React.Component {
                   );
                 }
               });
+
               return dev;
             }
           })}
@@ -180,3 +184,4 @@ class ViewUser extends React.Component {
 }
 
 export default ViewUser;
+
