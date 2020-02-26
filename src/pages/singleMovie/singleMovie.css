@@ -5,11 +5,8 @@
   justify-content: space-between;
   flex-direction: row;
 }
-.back-button{
-  
+.back-button {
   font-family: "Krona One", sans-serif;
   align-self: flex-start !important;
   margin: 1% !important;
-  
-
 }

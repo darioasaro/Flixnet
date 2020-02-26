@@ -115,7 +115,7 @@ class ViewUser extends React.Component {
           })}
         </div>
 
-        <h2 className="blockquote text-center">Avaiable Movies</h2>
+        <h2 className="blockquote text-center">Movies</h2>
         <div className="cartas-group">
           {this.state.avaibleList.map((movie, i) => {
             let url;
