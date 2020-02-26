@@ -110,7 +110,8 @@ class AdminView extends React.Component {
           id: 37,
           name: "Western"
         }
-      ]
+      ],
+      validator: true
     };
   }
 
@@ -119,13 +120,16 @@ class AdminView extends React.Component {
   //Borra de la base de datos todas las peliculas
 
   componentDidMount = async () => {
+    if (checkUsers()) {
     let addMovies = await dataBase.getData("movies");
     let movies = addMovies;
     this.setState({
       addedMovies: movies
     });
-
     console.log("addedmovies", this.state.addedMovies);
+  } else {
+    this.setState({ validator: false });
+  }
   };
   deleteAllMovies = () => {
     dataBase.deleteData("movies");
@@ -151,7 +155,6 @@ class AdminView extends React.Component {
     this.setState({
       addedMovie: true,
       addedMovies: movies
-      
     });
     //this.forceUpdate()
    
@@ -214,7 +217,7 @@ class AdminView extends React.Component {
   deleteAdd = async e => {
     let id = e.target.id
     let movies = await dataBase.getData('movies')
-    movies = movies.filter(movie=>movie.id != id)  
+    movies = movies.filter(movie=>movie.id !== id)  
     dataBase.setData('movies',movies)
    //elimina la pelicula de la lista de cada usuario donde estaba disponible
     let users = await getUsers()
@@ -222,7 +225,7 @@ class AdminView extends React.Component {
       let miLista = await dataBase.getData("List of " + user.username);
       
       if(miLista){
-      miLista = miLista.filter(miMovie=>miMovie.id != id)
+      miLista = miLista.filter(miMovie=>miMovie.id !== id)
       dataBase.setData("List of "+user.username,miLista)
       }
     })
@@ -243,6 +246,7 @@ class AdminView extends React.Component {
   }
 
   render() {
+    if (!this.state.validator) return <Redirect to={"/"} />;
     return (
       <Container className="container">
         {/* <Button onClick={this.onLoggout}> loggout </Button> */}
