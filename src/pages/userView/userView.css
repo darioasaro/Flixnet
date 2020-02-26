@@ -7,30 +7,37 @@
   margin-top: 5%;
   font-family: "Krona One", sans-serif;
 }
-.carrousel {
 
-  align-self: center;
-  max-height: 100px;
-  width: 90%;
-}
-.carrousel-card {
-  align-self: center;
+.cartas-group {
+  display: flex !important;
+ flex-flow:row wrap !important;
+  margin-left: 2%;
+  justify-content: center;
   width: auto;
-  height: auto;
-}
-.card-group {
-  margin-left: 12%;
-  width: auto;
-  height: auto;
   align-self: center;
   margin-bottom: 4%;
 }
+.card{
+  margin:2%;
+  flex-wrap: wrap;
+  padding:4px;
+  width: auto;
+  background-color:transparent !important ;
+   border-image-width: 24px !important;
+  border-image-source: url(https://i.imgur.com/lC5gBC8.png) !important;
+  border-image-slice: 54 85 !important;
+  border-image-outset: 6px !important;
+  border-image-repeat: repeat repeat !important;
+}
 
 .card-img {
+  
+  align-items: center;
+  padding:5%;
   width: auto;
   height: auto;
   max-height: 300px;
-  max-width: 300px;
+  max-width: 150px;
 }
 
  /* The sidebar menu */

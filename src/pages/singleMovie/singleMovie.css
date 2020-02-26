@@ -1,5 +1,15 @@
 .myContainer {
   display: flex;
-  justify-content: space-around;
+  height: 100%;
+  width: 100% !important;
+  justify-content: space-between;
   flex-direction: row;
+}
+.back-button{
+  
+  font-family: "Krona One", sans-serif;
+  align-self: flex-start !important;
+  margin: 1% !important;
+  
+
 }

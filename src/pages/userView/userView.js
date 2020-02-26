@@ -22,8 +22,11 @@ class ViewUser extends React.Component {
       genres: [],
       idMovie: null,
       filterGenre: "All",
+      idMovie: null,
+      filterGenre: "All",
       idMovies: null,
       validator: true
+      
     };
   }
   async componentDidMount() {
@@ -86,20 +89,22 @@ class ViewUser extends React.Component {
         <div className="sidenav">
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Search by Genre</Form.Label>
-            <Form.Control as="select" onChange={this.filter}>
+            <Form.Control onChange={this.filter} as="select">
               {this.state.genres.map(genero => (
-                <option key={genero.id}>{genero.name}</option>
+                <option>{genero.name}</option>
               ))}
-              <Button type="submit" onClick={this.handleFilter}></Button>
+              <Button type="submit" onClick={this.handleFilter}>
+                {" "}
+              </Button>
             </Form.Control>
           </Form.Group>
         </div>
         {/* <Button onClick={this.onLoggout}> loggout </Button> */}
         <h2 className="blockquote text-center">Popular Movies</h2>
-        <CardGroup className="card-group">
+        <div className="cartas-group">
           {this.state.topRated.map((movie, i) => {
             return (
-              <Card key={i}>
+              <Card className="card" key={i}>
                 <Card.Img
                   id={movie.id}
                   className="card-img"
@@ -110,10 +115,10 @@ class ViewUser extends React.Component {
               </Card>
             );
           })}
-        </CardGroup>
+        </div>
 
         <h2 className="blockquote text-center">Avaiable Movies</h2>
-        <CardGroup className="card-group">
+        <div className="cartas-group">
           {this.state.avaibleList.map((movie, i) => {
             let url;
             movie.poster_path
@@ -121,7 +126,7 @@ class ViewUser extends React.Component {
               : (url = "500" + movie.backdrop_path);
             if (this.state.filterGenre === "All") {
               return (
-                <Card key={i}>
+                <Card className="card"key={i}>
                   <Card.Img
                     id={movie.id}
                     className="card-img"
@@ -133,10 +138,10 @@ class ViewUser extends React.Component {
               );
             } else {
               let dev = movie.genre.map(genero => {
-                if (genero.name === this.state.filterGenre) {
-                  console.log("cada movie", movie);
+                if (genero.name == this.state.filterGenre) {
+                  
                   return (
-                    <Card key={i}>
+                    <Card className="card" key={i}>
                       <Card.Img
                         id={movie.id}
                         className="card-img"
@@ -152,17 +157,17 @@ class ViewUser extends React.Component {
               return dev;
             }
           })}
-        </CardGroup>
+        </div>
 
         <h2 className="blockquote text-center">My Top Movies</h2>
-        <CardGroup className="card-group">
+        <div className="cartas-group">
           {this.state.myList.map((movie, i) => {
             let url;
             movie.poster_path
               ? (url = "342" + movie.poster_path)
               : (url = "500" + movie.backdrop_path);
             return (
-              <Card key={i}>
+              <Card className="card" key={i}>
                 <Card.Img
                   id={movie.id}
                   className="card-img"
@@ -173,7 +178,7 @@ class ViewUser extends React.Component {
               </Card>
             );
           })}
-        </CardGroup>
+        </div>
         <Button onClick={this.deleteMyFavoriteList}> ERASE ALL </Button>
       </Container>
     );
@@ -182,14 +187,3 @@ class ViewUser extends React.Component {
 
 export default ViewUser;
 
-// while (cant < array.length) {
-
-//   for (let i = 0 ; i < 6 && cant < array.length; i++) {
-//       arraux.push(parseInt(array[cant]))
-//       cant++
-// }
-// console.log('arraux',arraux);
-
-// arraux = []
-
-// }
