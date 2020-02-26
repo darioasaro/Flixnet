@@ -65,7 +65,8 @@ class App extends React.Component {
     console.log("movie", movie);
   };
   loggout = () => {
-    this.setState({ redirect: "null" });
+    dataBase.deleteData("username")
+    this.setState({ redirect: "null" }); 
   };
   usarDatos = e => {
     const usuarios = this.state.usuarios;
@@ -101,7 +102,7 @@ class App extends React.Component {
         ) : (
           <Redirect to={"/"} />
         )}
-        <Layout>
+        <Layout logOut={this.loggout} logged={this.state.redirect}>
           <Switch>
             <Route exact path="/">
               <Login pedirDatos={this.usarDatos} />
