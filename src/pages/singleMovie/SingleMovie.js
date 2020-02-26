@@ -48,6 +48,12 @@ class SingleMovie extends React.Component {
       });
     }
   };
+  
+  handleBack = ()=>{
+    this.setState({
+      back:true
+    })
+  }
 
   // componentDidMount () {
   //   const { idSelected } =  useParams();
@@ -65,7 +71,10 @@ class SingleMovie extends React.Component {
       // return <Redirect to={`/movie/${this.state.idMovie}`}/>
       return <Redirect to={"/users"} />;
     return (
+      <>
+       <Button onClick={this.handleBack}className="back-button" type="submit" variant="primary" >back</Button>
       <Container className="myContainer">
+       
         <div>
           <img src={"https://image.tmdb.org/t/p/w" + url} alt="" />
         </div>
@@ -91,6 +100,7 @@ class SingleMovie extends React.Component {
           </>
         </div>
       </Container>
+      </>
     );
   }
 }
