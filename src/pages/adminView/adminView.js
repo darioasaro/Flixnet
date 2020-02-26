@@ -23,8 +23,9 @@ class AdminView extends React.Component {
       id: "",
       original_title: "",
       overview: "",
-      year: "",
+      release_date: "",
       genreAdd: "",
+      poster_path:"",
       find: "",
       table: false,
       movies: [],
@@ -169,11 +170,11 @@ class AdminView extends React.Component {
     e.preventDefault();
 
     let movie = {
-      name: this.state.name,
-      description: this.state.description,
+      original_title: this.state.original_title,
+      overview: this.state.overview,
       genre: this.state.genreAdd,
-      year: this.state.year,
-      poster_image: this.state.image,
+      release_date: this.state.release_date,
+      poster_path: this.state.poster_path,
       id: this.state.id
     };
     this.setState({
@@ -245,15 +246,13 @@ class AdminView extends React.Component {
     if (!this.state.validator) return <Redirect to={"/"} />;
     return (
       <Container className="container">
-        {/* <Button onClick={this.onLoggout}> loggout </Button> */}
+       
         <h1 className="display-3">Admin Panel</h1>
         <h3 className="display-6">Movies</h3>
 
         <h3 className="display-6">Add Movie from API</h3>
         <h5>Search</h5>
-        {/* <Button onClick={this.deleteAllMovies} variant="primary">
-          DELETE
-        </Button> */}
+        
 
         <InputGroup className="mb-3">
           <Form.Control
@@ -314,10 +313,12 @@ class AdminView extends React.Component {
             </Table>
           </>
         )}
-
-        <h3 className="display-6">Added Movies</h3>
-        {/* {this.state.table && ( */}
-        <>
+      { this.state.addedMovies.length>0 &&
+      <div>
+      
+          <h3 className="display-6">Added Movies</h3>
+       
+        
           <Table striped bordered hover variant="dark">
             <thead>
               <tr>
@@ -352,23 +353,25 @@ class AdminView extends React.Component {
               ))}
             </tbody>
           </Table>
-        </>
-        {/* )} */}
+          
 
+        </div>
+         }
+     
         <Form id="form" className="adminForm">
           <h3 className="display-6">Add Movie</h3>
           <Form.Row>
             <Form.Group as={Col}>
               <Form.Label>Title</Form.Label>
               <Form.Control
-                name="name"
+                name="original_title"
                 placeholder="Batman vs Superman"
                 onChange={this.handleChange}
               />
             </Form.Group>
             <Form.Group as={Col}>
               <Form.Label>Year</Form.Label>
-              <Form.Control name="year" onChange={this.handleChange} />
+              <Form.Control name="release_date" onChange={this.handleChange} />
             </Form.Group>
             <Form.Group as={Col}>
               <Form.Label>Genre</Form.Label>
@@ -385,25 +388,21 @@ class AdminView extends React.Component {
           </Form.Row>
 
           <Form.Row>
-            <InputGroup as={Col}>
-              <InputGroup.Prepend>
-                <InputGroup.Text>Description</InputGroup.Text>
-              </InputGroup.Prepend>
+            <Form.Group as={Col}>
+            
+                <Form.Label>Description</Form.Label>
+             
               <Form.Control
-                name="description"
+                name="overview"
                 onChange={this.handleChange}
                 as="textarea"
                 aria-label="With textarea"
               />
-            </InputGroup>
+            </Form.Group>
 
             <Form.Group as={Col}>
-              <Form.Label>Search Image</Form.Label>
-              <Form.Control
-                type="file"
-                name="images"
-                onChange={this.onChange}
-              />
+              <Form.Label>Image</Form.Label>
+              <Form.Control placeholder="copy your path here" name="poster_path" onChange={this.handleChange} />
             </Form.Group>
           </Form.Row>
 

@@ -19,6 +19,7 @@ class App extends React.Component {
     super();
     this.selfMovieView = this.selfMovieView.bind(this);
     this.state = {
+      movies:[],
       singe: 0,
       usuarios: [
         {
@@ -60,12 +61,12 @@ class App extends React.Component {
       let movies = json;
       movies.push(movie);
       dataBase.setData("movies", movies);
-      this.setState({ movie });
+      this.setState({ movies:movies });
     }
-    console.log("movie", movie);
+    
   };
   loggout = () => {
-    dataBase.deleteData("username")
+    dataBase.deleteData("username");
     this.setState({ redirect: "null" }); 
   };
   usarDatos = e => {
@@ -115,7 +116,7 @@ class App extends React.Component {
               />
             </Route>
             <Route path="/admins">
-              <AdminView addMovie={this.addMovie} inLoggout={this.loggout} />
+              <AdminView addMovie={this.addMovie} addedMovies={this.state.movies} inLoggout={this.loggout} />
             </Route>
             {/* <Route path="/movie:idSelected" */}
             <Route path="/movie">
