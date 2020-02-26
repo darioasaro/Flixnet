@@ -147,7 +147,6 @@ class ViewUser extends React.Component {
                   );
                 }
               });
-
               return dev;
             }
           })}
