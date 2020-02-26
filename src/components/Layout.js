@@ -2,10 +2,11 @@ import React from "react";
 import NavBar from "./navBar/navBar.js";
 
 function Layout(props) {
-  //const childern = props.children
+  const children = props.children
+
   return (
     <div>
-      <NavBar />
+      <NavBar logOut={props.logOut} logged={props.logged}/>
       {props.children}
     </div>
   );
