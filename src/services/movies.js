@@ -12,8 +12,25 @@ export const findMovie = async id => {
   return dato;
 };
 
-export const getGenre = async () =>{
-  let response = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US')
-  let genres = await response.json()
-  return genres
-}
+export const getGenre = async () => {
+  let response = await fetch(
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US"
+  );
+  let genres = await response.json();
+  return genres;
+};
+
+export const isDuplicated = async (where, duplied) => {
+  let ret = await localStorage.getItem(where);
+  let movies = await JSON.parse(ret);
+  let conditional;
+  movies.forEach(movie => {
+    if (duplied.id === movie.id) {
+      conditional = true;
+    } else {
+      conditional = false;
+    }
+    return conditional;
+  });
+  return conditional;
+};

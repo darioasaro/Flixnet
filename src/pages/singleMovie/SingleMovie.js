@@ -4,6 +4,7 @@ import "./singleMovie.css";
 import Button from "react-bootstrap/Button";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
+import { isDuplicated } from "../../services/movies";
 
 class SingleMovie extends React.Component {
   constructor(props) {
@@ -20,10 +21,14 @@ class SingleMovie extends React.Component {
       this.addFav();
     } else {
       let favs = json;
-      favs.push(this.props.movie);
+      if (await isDuplicated("List of " + user, this.props.movie)) {
+        alert("no podes tener valores repetidos");
+      } else {
+        favs.push(this.props.movie);
+        alert("Ya podes disfrutarla");
+      }
       dataBase.setData("List of " + user, favs);
     }
-    alert("Ya podes disfrutarla");
     this.setState({
       back: true
     });
@@ -48,12 +53,12 @@ class SingleMovie extends React.Component {
       });
     }
   };
-  
-  handleBack = ()=>{
+
+  handleBack = () => {
     this.setState({
-      back:true
-    })
-  }
+      back: true
+    });
+  };
 
   // componentDidMount () {
   //   const { idSelected } =  useParams();
@@ -72,34 +77,45 @@ class SingleMovie extends React.Component {
       return <Redirect to={"/users"} />;
     return (
       <>
-       <Button onClick={this.handleBack}className="back-button" type="submit" variant="primary" >back</Button>
-      <Container className="myContainer">
-       
-        <div>
-          <img src={"https://image.tmdb.org/t/p/w" + url} alt="" />
-        </div>
-        <div>
-          <h1> {pelicula.original_title} </h1>
-          <p> {pelicula.overview} </p>
-          <p>Voto general: {pelicula.vote_average}</p>
-          <p>Cantidad de votantes: {pelicula.vote_count}</p>
+        <Button
+          onClick={this.handleBack}
+          className="back-button"
+          type="submit"
+          variant="primary"
+        >
+          back
+        </Button>
+        <Container className="myContainer">
+          <div>
+            <img src={"https://image.tmdb.org/t/p/w" + url} alt="" />
+          </div>
+          <div>
+            <h1> {pelicula.original_title} </h1>
+            <p> {pelicula.overview} </p>
+            <p>Voto general: {pelicula.vote_average}</p>
+            <p>Cantidad de votantes: {pelicula.vote_count}</p>
 
-          <>
-            <Button
-              className="mr-3"
-              variant="primary"
-              size="lg"
-              active
-              onClick={this.addFav}
-            >
-              Agregar a myFav
-            </Button>
-            <Button variant="secondary" size="lg" active onClick={this.delFav}>
-              Eliminar de myFav
-            </Button>
-          </>
-        </div>
-      </Container>
+            <>
+              <Button
+                className="mr-3"
+                variant="primary"
+                size="lg"
+                active
+                onClick={this.addFav}
+              >
+                Agregar a myFav
+              </Button>
+              <Button
+                variant="secondary"
+                size="lg"
+                active
+                onClick={this.delFav}
+              >
+                Eliminar de myFav
+              </Button>
+            </>
+          </div>
+        </Container>
       </>
     );
   }
