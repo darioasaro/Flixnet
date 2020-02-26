@@ -1,39 +1,86 @@
-.container{
-    display:flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    margin-left: 7% !important;
-    margin-top:5%;
-    font-family: 'Krona One', sans-serif;
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  margin-left: 5% !important;
+  margin-top: 5%;
+  font-family: "Krona One", sans-serif;
 }
-.carrousel{
-    
-    align-self: center;
-    margin-left: 30%;
-    max-height: auto;
-    width: 100%;
-    max-width: 3000px;
+
+.cartas-group {
+  display: flex !important;
+ flex-flow:row wrap !important;
+  margin-left: 2%;
+  justify-content: center;
+  width: auto;
+  align-self: center;
+  margin-bottom: 4%;
+}
+.card{
+  margin:2%;
+  flex-wrap: wrap;
+  padding:4px;
+  width: auto;
+  background-color:transparent !important ;
+   border-image-width: 24px !important;
+  border-image-source: url(https://i.imgur.com/lC5gBC8.png) !important;
+  border-image-slice: 54 85 !important;
+  border-image-outset: 6px !important;
+  border-image-repeat: repeat repeat !important;
+}
+
+.card-img {
   
-    
-}
-.carrousel-card{
-    align-self: center;
-    width: auto;
-    height: auto;
-    
-    
-}
-.card-group{
-    width: auto;
-    height: auto;
-    align-self: center;
+  align-items: center;
+  padding:5%;
+  width: auto;
+  height: auto;
+  max-height: 300px;
+  max-width: 150px;
 }
 
-.card-img{
-    width: auto;
-    height: auto;
-    max-width: 300px;
-    
+ /* The sidebar menu */
+.sidenav {
+  height: auto; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; 
+  top: 0; /* Stay at the top */
+  left: 0;
+  margin-top: 4.3%;
+  background-color:#343a40; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+  padding-right: 6px;
+}
 
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Style page content */
+.main {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+} 
+
+.button-filter{
+  margin-top: 10px ;
 }

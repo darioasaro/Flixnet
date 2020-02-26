@@ -1,32 +1,43 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import Login from "./pages/Login";
 import AdminView from "./pages/adminView/adminView.js";
-import UserView from './pages/userView/userView'
-
-import Layout from './components/Layout'
+import UserView from "./pages/userView/userView";
+import SingleMovie from "./pages/singleMovie/SingleMovie";
+import Layout from "./components/Layout";
+import { getUsers } from "./services/users";
+import dataBase from "./services/database";
+import { findMovie } from "./services/movies";
 
 class App extends React.Component {
   constructor() {
     super();
+    this.selfMovieView = this.selfMovieView.bind(this);
     this.state = {
+      singe: 0,
       usuarios: [
         {
           username: "",
           password: ""
         }
-      ]
+      ],
+      redirect: "null",
+      movie: [{ movie: "" }]
     };
   }
 
   componentDidMount = () => {
-    fetch("./data/users.json")
-      .then(response => response.json())
-      .then(data =>
-        this.setState({
-          usuarios: data
-        })
-      );
+    getUsers().then(data => {
+      this.setState({
+        usuarios: data
+      });
+    });
+    dataBase.setData("movies", []);
   };
 
   test = async () => {
@@ -40,63 +51,77 @@ class App extends React.Component {
     console.log(dato);
   };
 
-  addMovie(movie){
-    
-    console.log('pelicula agregada',movie);
-    
-  }
-
-  Admins = () => {
-    return <h1>Admins</h1>;
+  addMovie = async movie => {
+    const json = await dataBase.getData("movies");
+    if (!json) {
+      dataBase.setData("movies", []);
+      this.addMovie(movie);
+    } else {
+      let movies = json;
+      movies.push(movie);
+      dataBase.setData("movies", movies);
+      this.setState({ movie });
+    }
+    console.log("movie", movie);
   };
-
-  Login = () => {
-    return <h1>About</h1>;
+  loggout = () => {
+    this.setState({ redirect: "null" });
   };
-
-  Users = () => {
-    return <h1>Users</h1>;
-  };
-
   usarDatos = e => {
-    console.log(e);
+    const usuarios = this.state.usuarios;
+    usuarios.forEach(usuario => {
+      if (e.username === usuario.username) {
+        if (e.password === usuario.password) {
+          dataBase.setData("username", usuario.username);
+          this.setState({ redirect: usuario.state });
+        } else {
+          console.log("te fallo la pass crack");
+        }
+      } else {
+        console.log("te fallo el usuario master");
+      }
+    });
   };
+
+  async selfMovieView(id) {
+    let mov = await findMovie(id);
+
+    this.setState({
+      movie: mov,
+      single: id
+    });
+    console.log(this.state.single);
+  }
 
   render() {
     return (
       <Router>
-        <div>
-          {/* <nav>
-            <ul>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/admins">Admins</Link>
-              </li>
-              <li>
-                <Link to="/users">Users</Link>
-              </li>
-            </ul>
-          </nav> */}
-          
-
-          {/* A <Switch> looks through its children <Route>s and
-                  renders the first one that matches the current URL. */}
-         <Layout>
+        {this.state.redirect !== "null" ? (
+          <Redirect to={"/" + this.state.redirect} />
+        ) : (
+          <Redirect to={"/"} />
+        )}
+        <Layout>
           <Switch>
-            <Route path="/login">
+            <Route exact path="/">
               <Login pedirDatos={this.usarDatos} />
             </Route>
-            <Route path="/users">{this.Users}
-            <UserView />
+            <Route path="/users">
+              <UserView
+                selfMovieView={this.selfMovieView}
+                key={this.state.key}
+                inLoggout={this.loggout}
+              />
             </Route>
             <Route path="/admins">
-              <AdminView addMovie={this.addMovie}/>
+              <AdminView addMovie={this.addMovie} inLoggout={this.loggout} />
+            </Route>
+            {/* <Route path="/movie:idSelected" */}
+            <Route path="/movie">
+              <SingleMovie movie={this.state.movie} />
             </Route>
           </Switch>
-          </Layout>
-        </div>
+        </Layout>
       </Router>
     );
   }

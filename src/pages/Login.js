@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import "../pages/Login.css";
+import Container from "react-bootstrap/Container";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "",
+      username: "",
       password: ""
     };
   }
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.pedirDatos(this.state);
@@ -20,36 +21,44 @@ class Login extends Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(e.target.value);
   };
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter username"
-            onChange={this.onChange}
-            name="userName"
-          />
-        </Form.Group>
+      <Container className="container">
+        <h1>
+          Welcome to FLIXNET
+          <p>
+            <span>Sing in</span>
+          </p>
+        </h1>
 
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            onChange={this.onChange}
-            name="password"
-          />
-        </Form.Group>
+        <Form className="form-group" onSubmit={this.handleSubmit}>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>User</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter username"
+              onChange={this.onChange}
+              name="username"
+            />
+          </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={this.onChange}
+              name="password"
+            />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
     );
   }
 }
