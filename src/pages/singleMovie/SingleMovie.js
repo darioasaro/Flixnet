@@ -30,7 +30,8 @@ class SingleMovie extends React.Component {
       dataBase.setData("List of " + user, favs);
     }
     this.setState({
-      back: true
+      back: true,
+      button: true
     });
   };
   delFav = async () => {
@@ -49,7 +50,8 @@ class SingleMovie extends React.Component {
       dataBase.setData("List of " + user, json);
       alert("Ya fue removida");
       this.setState({
-        back: true
+        back: true,
+        button: false
       });
     }
   };
@@ -59,19 +61,26 @@ class SingleMovie extends React.Component {
       back: true
     });
   };
+  // verify = async () => {
+  //   const user = await dataBase.getData("username");
+  //   const listOfUser = await dataBase.getData("List of " + user);
 
-  // componentDidMount () {
-  //   const { idSelected } =  useParams();
-  //   alert(idSelected)
-  // }
+  //   return validate;
+  // };
 
   render() {
     const pelicula = this.props.movie;
-    let url;
-
+    let url, callback, texto;
     pelicula.backdrop_path
       ? (url = "500" + pelicula.backdrop_path)
       : (url = "342" + pelicula.poster_path);
+    // if (this.verify()) {
+    //   texto = "Agregar a mi lista de Favoritas";
+    //   callback = this.addFav;
+    // } else {
+    //   texto = "Eliminar de mi lista de Favoritas";
+    //   callback = this.delFav;
+    // }
     if (this.state.back === true)
       // return <Redirect to={`/movie/${this.state.idMovie}`}/>
       return <Redirect to={"/users"} />;
@@ -83,7 +92,7 @@ class SingleMovie extends React.Component {
           type="submit"
           variant="primary"
         >
-          back
+          Back
         </Button>
         <Container className="myContainer">
           <div>
@@ -103,15 +112,10 @@ class SingleMovie extends React.Component {
                 active
                 onClick={this.addFav}
               >
-                Agregar a myFav
+                Agregar a Fav
               </Button>
-              <Button
-                variant="secondary"
-                size="lg"
-                active
-                onClick={this.delFav}
-              >
-                Eliminar de myFav
+              <Button variant="primary" size="lg" active onClick={this.delFav}>
+                Eliminar de Fav
               </Button>
             </>
           </div>
