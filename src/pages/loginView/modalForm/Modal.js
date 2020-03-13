@@ -1,7 +1,24 @@
 import React from "react";
 import "../modalForm/Modal.css";
+import { useEffect, useState } from "react";
 
 const Modal = () => {
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+
+  const handleUser = e => {
+    setUser(e.target.value);
+  };
+
+  const handlePass = e => {
+    setPass(e.target.value);
+  };
+
+  const handleClose = e => {
+    setUser("");
+    setPass("");
+  };
+
   return (
     <div className="container">
       <button
@@ -29,6 +46,7 @@ const Modal = () => {
                 Sign up
               </h5>
               <button
+                onClick={handleClose}
                 type="button"
                 className="close"
                 data-dismiss="modal"
@@ -38,32 +56,31 @@ const Modal = () => {
               </button>
             </div>
             <div className="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
-                  />
-                  <small id="emailHelp" class="form-text text-muted">
-                    We'll never share your email with anyone else.
-                  </small>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                  />
-                </div>
-                <div class="form-group form-check"></div>
-                <button type="submit" class="btn btn-primary">
-                  Submit
-                </button>
-              </form>
+              <div className="form-group">
+                <label htmlFor="exampleInputName1">User name</label>
+                <input
+                  onChange={handleUser}
+                  type="text"
+                  className="form-control"
+                  id="exampleInputName1"
+                />
+                <small id="emailHelp" className="form-text text-muted">
+                  We'll never share your data with anyone else.
+                </small>
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword1">Password</label>
+                <input
+                  onChange={handlePass}
+                  type="password"
+                  className="form-control"
+                  id="exampleInputPassword1"
+                />
+              </div>
+              <div className="form-group form-check"></div>
+              <button type="submit" className="btn btn-primary">
+                Submit
+              </button>
             </div>
           </div>
         </div>
