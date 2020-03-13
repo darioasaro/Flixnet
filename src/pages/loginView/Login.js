@@ -56,10 +56,10 @@ class Login extends Component {
           </Form.Group>
 
           <div className="optionsGroup">
-            <Button id="submitBtn" variant="primary" type="submit">
+            <Button variant="primary" type="submit">
               Submit
             </Button>
-            <Modal/>
+            <Modal />
           </div>
         </Form>
       </Container>
