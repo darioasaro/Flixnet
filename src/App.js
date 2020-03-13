@@ -5,7 +5,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/loginView/Login";
 import AdminView from "./pages/adminView/adminView.js";
 import UserView from "./pages/userView/userView";
 import SingleMovie from "./pages/singleMovie/SingleMovie";
