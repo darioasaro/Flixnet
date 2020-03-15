@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "../pages/Login.css";
+import "../loginView/Login.css";
 import Container from "react-bootstrap/Container";
+import Modal from "./modalForm/Modal";
 
 class Login extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class Login extends Component {
       [e.target.name]: e.target.value
     });
   };
+
 
   render() {
     return (
@@ -54,9 +56,12 @@ class Login extends Component {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          <div className="optionsGroup">
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+            <Modal />
+          </div>
         </Form>
       </Container>
     );

@@ -221,7 +221,7 @@ class AdminView extends React.Component {
   deleteAdd = async e => {
     let id = e.target.id;
     let movies = await dataBase.getData("movies");
-    movies = movies.filter(movie => movie.id != id);
+    movies = movies.filter(movie => movie.id !== id);
     dataBase.setData("movies", movies);
     //elimina la pelicula de la lista de cada usuario donde estaba disponible
     let users = await getUsers();
@@ -229,7 +229,7 @@ class AdminView extends React.Component {
       let miLista = await dataBase.getData("List of " + user.username);
 
       if (miLista) {
-        miLista = miLista.filter(miMovie => miMovie.id != id);
+        miLista = miLista.filter(miMovie => miMovie.id !== id);
         dataBase.setData("List of " + user.username, miLista);
       }
     });
