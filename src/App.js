@@ -5,14 +5,15 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/loginView/Login";
 import AdminView from "./pages/adminView/adminView.js";
 import UserView from "./pages/userView/userView";
 import SingleMovie from "./pages/singleMovie/SingleMovie";
 import Layout from "./components/Layout";
-import { getUsers } from "./services/users";
+import { getUsers,login } from "./services/users";
 import dataBase from "./services/database";
 import { findMovie } from "./services/movies";
+import Modal from '../src/pages/loginView/modalForm/Modal'
 
 class App extends React.Component {
   constructor() {
@@ -68,21 +69,28 @@ class App extends React.Component {
     dataBase.deleteData("username")
     this.setState({ redirect: "null" }); 
   };
-  usarDatos = e => {
-    const usuarios = this.state.usuarios;
-    usuarios.forEach(usuario => {
-      if (e.username === usuario.username) {
-        if (e.password === usuario.password) {
-          dataBase.setData("username", usuario.username);
-          this.setState({ redirect: usuario.state });
+  usarDatos =async e => {
+    const userLog = {'username':e.username,
+        'password':e.password}
+
+      const res = await login(userLog)
+      var rol = "";
+      
+    
+    
+    
+        if (res.result) {
+          dataBase.setData("username", userLog.username);
+          if(res.rol==2){
+            rol = "users"
+          }
+
+          //hay q asignar el rol para redireccionar a admin o user.
+          this.setState({ redirect: rol });
         } else {
-          console.log("te fallo la pass crack");
+          alert(res.message);
         }
-      } else {
-        console.log("te fallo el usuario master");
-      }
-    });
-  };
+};
 
   async selfMovieView(id) {
     let mov = await findMovie(id);
@@ -106,6 +114,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/">
               <Login pedirDatos={this.usarDatos} />
+              <Modal />
             </Route>
             <Route path="/users">
               <UserView

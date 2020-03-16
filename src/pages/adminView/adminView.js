@@ -7,7 +7,7 @@ import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { findMovie } from "../../services/movies";
+import { findMovie, isDuplicated } from "../../services/movies";
 import dataBase from "../../services/database";
 import { getUsers, checkUsers } from "../../services/users.js";
 import { Redirect } from "react-router-dom";
@@ -137,6 +137,7 @@ class AdminView extends React.Component {
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
     let dato = await findMovie(e.target.id);
+
     let movie = {
       original_title: dato.original_title,
       overview: dato.overview,
@@ -148,7 +149,11 @@ class AdminView extends React.Component {
       vote_count: dato.vote_count,
       id: dato.id
     };
-    this.props.addMovie(movie);
+    if (await isDuplicated("movies", dato)) {
+      alert("no podes tener valores repetidos");
+    } else {
+      this.props.addMovie(movie);
+    }
     let addMovies = await dataBase.getData("movies");
     let movies = addMovies;
 
@@ -216,7 +221,7 @@ class AdminView extends React.Component {
   deleteAdd = async e => {
     let id = e.target.id;
     let movies = await dataBase.getData("movies");
-    movies = movies.filter(movie => movie.id != id);
+    movies = movies.filter(movie => movie.id !== id);
     dataBase.setData("movies", movies);
     //elimina la pelicula de la lista de cada usuario donde estaba disponible
     let users = await getUsers();
@@ -224,7 +229,7 @@ class AdminView extends React.Component {
       let miLista = await dataBase.getData("List of " + user.username);
 
       if (miLista) {
-        miLista = miLista.filter(miMovie => miMovie.id != id);
+        miLista = miLista.filter(miMovie => miMovie.id !== id);
         dataBase.setData("List of " + user.username, miLista);
       }
     });

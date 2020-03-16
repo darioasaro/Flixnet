@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import CardGroup from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "../userView/userView.css";
@@ -20,7 +19,6 @@ class ViewUser extends React.Component {
       myList: [],
       avaibleList: [],
       genres: [],
-      idMovie: null,
       filterGenre: "All",
       idMovie: null,
       validator: true
@@ -149,7 +147,6 @@ class ViewUser extends React.Component {
                   );
                 }
               });
-
               return dev;
             }
           })}
