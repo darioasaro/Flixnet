@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import { getUsers,login } from "./services/users";
 import dataBase from "./services/database";
 import { findMovie } from "./services/movies";
+import Modal from '../src/pages/loginView/modalForm/Modal'
 
 class App extends React.Component {
   constructor() {
@@ -113,6 +114,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/">
               <Login pedirDatos={this.usarDatos} />
+              <Modal />
             </Route>
             <Route path="/users">
               <UserView

@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "../loginView/Login.css";
 import Container from "react-bootstrap/Container";
-import Modal from "./modalForm/Modal";
+//import Modal from "./modalForm/Modal";
 
 class Login extends Component {
   constructor(props) {
@@ -60,7 +60,6 @@ class Login extends Component {
             <Button variant="primary" type="submit">
               Submit
             </Button>
-            <Modal />
           </div>
         </Form>
       </Container>

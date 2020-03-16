@@ -1,10 +1,12 @@
 import React from "react";
 import "../modalForm/Modal.css";
 import { useEffect, useState } from "react";
+import {register} from '../../../services/users'
 
 const Modal = () => {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
+  const [passConf, setPassConf] = useState("");
 
   const handleUser = e => {
     setUser(e.target.value);
@@ -13,11 +15,37 @@ const Modal = () => {
   const handlePass = e => {
     setPass(e.target.value);
   };
+  const handlePassConf = e => {
+    setPassConf(e.target.value);
+  };
 
   const handleClose = e => {
     setUser("");
     setPass("");
+    setPassConf("");
   };
+  const handleSubmitReg = e =>{
+    console.log('submit')
+      e.preventDefault()
+      if(pass==passConf){
+        const newUser = {
+          username: user,
+          password : pass,
+          passwordConf : passConf
+        }
+       register(newUser)
+        alert('correct register')
+        handleClose()
+
+      }
+      else{
+      setUser("");
+      setPass("");
+      setPassConf("");
+        alert('Datos incorrectos')
+        
+      }
+  }
 
   return (
     <div className="container">
@@ -77,8 +105,19 @@ const Modal = () => {
                   id="exampleInputPassword1"
                 />
               </div>
+
+              <div className="form-group">
+                <label htmlFor="exampleInputPassword2">Confirm Password</label>
+                <input
+                  onChange={handlePassConf}
+                  type="password"
+                  className="form-control"
+                  id="exampleInputPassword2"
+                />
+              </div>
+              
               <div className="form-group form-check"></div>
-              <button type="submit" className="btn btn-primary">
+              <button onClick={handleSubmitReg} type="submit" className="btn btn-primary">
                 Submit
               </button>
             </div>
