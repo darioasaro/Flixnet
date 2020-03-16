@@ -28,7 +28,8 @@ export const register = async(user)=>{
     body:JSON.stringify({
       'username': user.username,
       'password' : user.password,
-      'passwordConf' : user.passwordConf
+      'passwordConf' : user.passwordConf,
+      'id_role':1
     })
   })
   var data = await response.json()

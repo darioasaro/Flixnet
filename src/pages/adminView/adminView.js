@@ -7,7 +7,7 @@ import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { findMovie, isDuplicated } from "../../services/movies";
+import { findMovie, isDuplicated, searchMovies } from "../../services/movies";
 import dataBase from "../../services/database";
 import { getUsers, checkUsers } from "../../services/users.js";
 import { Redirect } from "react-router-dom";
@@ -191,13 +191,7 @@ class AdminView extends React.Component {
   //funcion asincronica que busca en la api y trae los resultados del search del administrador
   async handleSearch(e) {
     e.preventDefault();
-    var uri = this.state.find;
-    var res = encodeURI(uri);
-    let response = await fetch(
-      "https://api.themoviedb.org/3/search/movie?api_key=b813c5783821c2f14ec75f3ae6cb1824&query=" +
-        res
-    );
-    let dato = await response.json();
+    let dato = await searchMovies(this.state.find)
     this.setState({
       table: true,
       movies: dato.results,

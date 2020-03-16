@@ -74,7 +74,7 @@ class App extends React.Component {
         'password':e.password}
 
       const res = await login(userLog)
-      var rol = "";
+      var rol = "admins";
       
     
     
