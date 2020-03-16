@@ -1,0 +1,12 @@
+.modal {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-shadow: none;
+  color: black;
+}
+
+.modal button:hover {
+  opacity: 0.7;
+}
+/*# sourceMappingURL=Modal.css.map */
