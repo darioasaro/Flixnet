@@ -7,7 +7,7 @@ import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { findMovie, isDuplicated, searchMovies } from "../../services/movies";
+import { findMovie, isDuplicated, searchMovies, findAllMovies } from "../../services/movies";
 import dataBase from "../../services/database";
 import { getUsers, checkUsers } from "../../services/users.js";
 import { Redirect } from "react-router-dom";
@@ -121,12 +121,11 @@ class AdminView extends React.Component {
 
   componentDidMount = async () => {
     if (checkUsers()) {
-      let addMovies = await dataBase.getData("movies");
-      let movies = addMovies;
+      let movie = await findAllMovies();
+      console.log("Data:", movie.movies);
       this.setState({
-        addedMovies: movies
+        addedMovies: movie.movies
       });
-      console.log("addedmovies", this.state.addedMovies);
     } else {
       this.setState({ validator: false });
     }
@@ -137,8 +136,8 @@ class AdminView extends React.Component {
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
     let dato = await findMovie(e.target.id);
-
     let movie = {
+      id_api : dato.id,
       original_title: dato.original_title,
       overview: dato.overview,
       genre: dato.genres,
@@ -154,12 +153,11 @@ class AdminView extends React.Component {
     } else {
       this.props.addMovie(movie);
     }
-    let addMovies = await dataBase.getData("movies");
-    let movies = addMovies;
+    findAllMovies().then(data=> this.setState({addedMovies : data.movies}))
+    
 
     this.setState({
       addedMovie: true,
-      addedMovies: movies
     });
     //this.forceUpdate()
   }
@@ -216,9 +214,12 @@ class AdminView extends React.Component {
     let id = e.target.id;
     let movies = await dataBase.getData("movies");
     movies = movies.filter(movie => movie.id !== id);
+    console.log('movies', movies);
+    
     dataBase.setData("movies", movies);
     //elimina la pelicula de la lista de cada usuario donde estaba disponible
     let users = await getUsers();
+    
     users.map(async user => {
       let miLista = await dataBase.getData("List of " + user.username);
 
@@ -332,11 +333,11 @@ class AdminView extends React.Component {
                   <td>{movie.id}</td>
                   <td>{movie.original_title}</td>
                   <td>{movie.release_date}</td>
-                  <td>
+                  {/* <td>
                     {movie.genre.map(gnre => {
                       return gnre.name + "-";
                     })}
-                  </td>
+                  </td> */}
                   <td>
                     <Button
                       id={movie.id}
