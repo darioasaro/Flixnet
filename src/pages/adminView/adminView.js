@@ -189,7 +189,7 @@ class AdminView extends React.Component {
   //funcion asincronica que busca en la api y trae los resultados del search del administrador
   async handleSearch(e) {
     e.preventDefault();
-    let dato = await searchMovies(this.state.find)
+    let dato = await searchMovies(this.state.find,this.props.token)
     this.setState({
       table: true,
       movies: dato.results,

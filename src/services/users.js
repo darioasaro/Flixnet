@@ -29,7 +29,7 @@ export const register = async(user)=>{
       'username': user.username,
       'password' : user.password,
       'passwordConf' : user.passwordConf,
-      'id_role':1
+      'id_role':2
     })
   })
   var data = await response.json()

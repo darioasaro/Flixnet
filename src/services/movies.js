@@ -35,8 +35,16 @@ export const isDuplicated = async (where, duplied) => {
   return conditional;
 };
 
-export const searchMovies=async (movie) =>{
-    let results = await fetch('http://localhost:3000/api/movies/'+movie)
+export const searchMovies=async (movie,token) =>{
+    let results = await fetch('http://localhost:3000/api/movies/'+movie
+    ,{
+        headers:{
+          'Content-Type':'application/json',
+          'authorization' : token
+
+        }
+    }
+    )
     let data = await results.json()
    return data
 }

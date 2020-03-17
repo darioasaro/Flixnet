@@ -20,6 +20,7 @@ class App extends React.Component {
     super();
     this.selfMovieView = this.selfMovieView.bind(this);
     this.state = {
+      token:"",
       singe: 0,
       usuarios: [
         {
@@ -65,10 +66,8 @@ class App extends React.Component {
 
       const res = await login(userLog)
       var rol = "admins";
-      
-    
-    
-    
+      console.log('resultado login',res)
+
         if (res.result) {
           dataBase.setData("username", userLog.username);
           if(res.rol==2){
@@ -76,6 +75,7 @@ class App extends React.Component {
           }
 
           //hay q asignar el rol para redireccionar a admin o user.
+          this.setState({token:res.token})
           this.setState({ redirect: rol });
         } else {
           alert(res.message);
@@ -108,17 +108,18 @@ class App extends React.Component {
             </Route>
             <Route path="/users">
               <UserView
+                token={this.state.token}
                 selfMovieView={this.selfMovieView}
                 key={this.state.key}
                 inLoggout={this.loggout}
               />
             </Route>
             <Route path="/admins">
-              <AdminView addMovie={this.addMovie} inLoggout={this.loggout} />
+              <AdminView token={this.state.token}addMovie={this.addMovie} inLoggout={this.loggout} />
             </Route>
             {/* <Route path="/movie:idSelected" */}
             <Route path="/movie">
-              <SingleMovie movie={this.state.movie} />
+              <SingleMovie token={this.state.token} movie={this.state.movie} />
             </Route>
           </Switch>
         </Layout>
