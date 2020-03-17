@@ -12,7 +12,7 @@ import SingleMovie from "./pages/singleMovie/SingleMovie";
 import Layout from "./components/Layout";
 import { getUsers,login } from "./services/users";
 import dataBase from "./services/database";
-import { findMovie } from "./services/movies";
+import { findMovie, movieAdd, findAllMovies } from "./services/movies";
 import Modal from '../src/pages/loginView/modalForm/Modal'
 
 class App extends React.Component {
@@ -54,17 +54,7 @@ class App extends React.Component {
   };
 
   addMovie = async movie => {
-    const json = await dataBase.getData("movies");
-    if (!json) {
-      dataBase.setData("movies", []);
-      this.addMovie(movie);
-    } else {
-      let movies = json;
-      movies.push(movie);
-      dataBase.setData("movies", movies);
-      this.setState({ movie });
-    }
-    console.log("movie", movie);
+   movieAdd(movie)
   };
   loggout = () => {
     dataBase.deleteData("username")
