@@ -40,3 +40,22 @@ export const searchMovies=async (movie) =>{
     let data = await results.json()
    return data
 }
+
+export const movieAdd = async (movie)=>{
+  return fetch('http://localhost:3000/api/movies/', {
+    method: 'POST',
+    body: JSON.stringify(movie),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  }).then(res => {
+      return res;
+  }).catch(err => err);
+}
+export const findAllMovies = async () => {
+  const url = "http://localhost:3000/api/movies/";
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
