@@ -66,15 +66,12 @@ class App extends React.Component {
 
       const res = await login(userLog)
       var rol = "admins";
-      console.log('resultado login',res)
-
         if (res.result) {
           dataBase.setData("username", userLog.username);
-          if(res.rol==2){
+          dataBase.setData("id_user", res.id);
+          if(res.rol===2){
             rol = "users"
           }
-
-          //hay q asignar el rol para redireccionar a admin o user.
           this.setState({token:res.token})
           this.setState({ redirect: rol });
         } else {

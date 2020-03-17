@@ -49,6 +49,7 @@ export const searchMovies=async (movie,token) =>{
    return data
 }
 
+
 export const movieAdd = async (movie)=>{
   return fetch('http://localhost:3000/api/movies/', {
     method: 'POST',
@@ -66,4 +67,5 @@ export const findAllMovies = async () => {
   const data = await response.json();
   return data;
 }
+
 
