@@ -48,3 +48,17 @@ export const searchMovies=async (movie,token) =>{
     let data = await results.json()
    return data
 }
+
+export const favouriteList = async (idUser,token)=>{
+  let results = await fetch('http://localhost:3000/api/user/'+idUser+'/favoritos'
+  ,{
+      headers:{
+        'Content-Type':'application/json',
+        'authorization' : token
+
+      }
+  }
+  )
+  let data = await results.json()
+ return data
+}

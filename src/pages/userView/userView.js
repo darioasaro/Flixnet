@@ -7,7 +7,7 @@ import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
 import { checkUsers } from "../../services/users.js";
-import { getGenre } from "../../services/movies";
+import { getGenre,favouriteList } from "../../services/movies";
 
 class ViewUser extends React.Component {
   constructor(props) {
@@ -34,6 +34,8 @@ class ViewUser extends React.Component {
       let user = await dataBase.getData("username");
       let miLista = await dataBase.getData("List of " + user);
       let avaibleList = await dataBase.getData("movies");
+      let newList = await favouriteList(await dataBase.getData('id_user'))
+      console.log('nuevalista',newList)
       if (miLista === null) {
         miLista = this.state.myList;
         //console.log(miLista);
@@ -95,7 +97,7 @@ class ViewUser extends React.Component {
           </Form.Group>
         </div>
         {/* <Button onClick={this.onLoggout}> loggout </Button> */}
-        <h2 className="blockquote text-center">Popular Movies</h2>
+        {/* <h2 className="blockquote text-center">Popular Movies</h2>
         <div className="cartas-group">
           {this.state.topRated.map((movie, i) => {
             return (
@@ -110,7 +112,7 @@ class ViewUser extends React.Component {
               </Card>
             );
           })}
-        </div>
+        </div> */}
 
         <h2 className="blockquote text-center">Avaiable Movies</h2>
         <div className="cartas-group">
