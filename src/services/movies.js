@@ -1,14 +1,9 @@
 // Dado un id busca en la api la pelicula
 
-export const findMovie = async id => {
-  let response = await fetch(
-    "https://api.themoviedb.org/3/movie/" +
-      id +
-      "?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US"
-  );
+export const findMovie = async (id_movie) => {
+  let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`);
 
   let dato = await response.json();
-
   return dato;
 };
 
@@ -95,3 +90,16 @@ export const deleteMovie= async(id)=>{
 }
 
 
+export const favouriteList = async (idUser,token)=>{
+  let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
+  ,{
+      headers:{
+        'Content-Type':'application/json',
+        'authorization' : token
+
+      }
+  }
+  )
+  let data = await results.json()
+ return data
+}
