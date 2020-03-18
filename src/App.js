@@ -79,14 +79,13 @@ class App extends React.Component {
         }
 };
 
-  async selfMovieView(id) {
-    let mov = await findMovie(id);
-
+  async selfMovieView(id_movie) {
+    let mov = await findMovie(id_movie);
     this.setState({
-      movie: mov,
-      single: id
+      movie: mov.movie[0],
+      single: id_movie
     });
-    console.log(this.state.single);
+  
   }
 
   render() {
