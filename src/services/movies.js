@@ -1,6 +1,7 @@
 // Dado un id busca en la api la pelicula
 
 export const findMovie = async id => {
+  
   let response = await fetch(
     "https://api.themoviedb.org/3/movie/" +
       id +
