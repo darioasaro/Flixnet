@@ -4,7 +4,8 @@ import "./singleMovie.css";
 import Button from "react-bootstrap/Button";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
-import { isDuplicated } from "../../services/movies";
+import { isDuplicated, addFavMovieList, deleteFavMovie } from "../../services/movies";
+import database from "../../services/database";
 
 class SingleMovie extends React.Component {
   constructor(props) {
@@ -14,46 +15,30 @@ class SingleMovie extends React.Component {
     };
   }
   addFav = async () => {
-    const user = await dataBase.getData("username");
-    const json = await dataBase.getData("List of " + user);
-    if (!json) {
-      dataBase.setData("List of " + user, []);
-      this.addFav();
-    } else {
-      let favs = json;
-      if (await isDuplicated("List of " + user, this.props.movie)) {
-        alert("no podes tener valores repetidos");
-      } else {
-        favs.push(this.props.movie);
-        alert("Ya podes disfrutarla");
-      }
-      dataBase.setData("List of " + user, favs);
-    }
+    
+    let id_movie = this.props.movie.id;
+    const user = localStorage.getItem("id_user");
+    addFavMovieList(id_movie, user)
+     
+
+    
     this.setState({
       back: true,
       button: true
     });
   };
   delFav = async () => {
-    const user = await dataBase.getData("username");
-    const json = await dataBase.getData("List of " + user);
+    const user = localStorage.getItem("id_user");
+    const id_movie = this.props.movie.id;
+    deleteFavMovie(id_movie,user)
 
-    if (!json) {
-      dataBase.setData("List of " + user, []);
-      this.delFav();
-    } else {
-      json.forEach((movie, i) => {
-        if (movie.id === this.props.movie.id) {
-          json.splice(i, 1);
-        }
-      });
-      dataBase.setData("List of " + user, json);
+    
       alert("Ya fue removida");
       this.setState({
         back: true,
         button: false
       });
-    }
+    
   };
 
   handleBack = () => {

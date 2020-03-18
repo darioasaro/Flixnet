@@ -33,11 +33,13 @@ class ViewUser extends React.Component {
       // );
       // let resMovies = await topMovies.json();
 
-      // let user = await dataBase.getData("username");
+       let user = localStorage.getItem("id_user");
       // let miLista = await dataBase.getData("List of " + user);
       //let avaibleList = await dataBase.getData("movies");
       findAllMovies().then(data=> this.setState({avaibleList: data.movies}))
+      favouriteList(user).then(data => this.setState({myList : data.movies}))
       let newList = await favouriteList(await dataBase.getData('id_user'))
+
       console.log('nuevalista',newList)
       // if (miLista === null) {
       //   miLista = this.state.myList;

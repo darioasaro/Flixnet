@@ -62,12 +62,12 @@ export const findAllMovies = async () => {
   const data = await response.json();
   return data;
 }
-export const favouriteList = async (idUser,token)=>{
+export const favouriteList = async (idUser)=>{
   let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
   ,{
       headers:{
         'Content-Type':'application/json',
-        'authorization' : token
+        //'authorization' : token
 
       }
   }
@@ -75,9 +75,33 @@ export const favouriteList = async (idUser,token)=>{
   let data = await results.json()
  return data
 }
+export const addFavMovieList = async (idMovie, idUser)=>{
+  return fetch(`http://localhost:3000/api/user/${idUser}/favoritos/${idMovie}`, {
+    method: 'POST',
+    //body: JSON.stringify(movie),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  }).then(res => {
+      return res;
+  }).catch(err => err);
+}
 
 export const deleteMovie= async(id)=>{
-  return fetch(`http://localhost:3000/api/movies/${id}`, {
+  return fetch(`http://localhost:3000/api/movies/${id}/favor`, {
+    method: 'DELETE',
+    //body: JSON.stringify(id),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  }).then(res => {
+      return res;
+  }).catch(err => err);
+  
+}
+
+export const deleteFavMovie= async(idMovie,idUser)=>{
+  return fetch(`http://localhost:3000/api/user/${idUser}/favoritos/${idMovie}`, {
     method: 'DELETE',
     //body: JSON.stringify(id),
     headers: {
@@ -90,16 +114,16 @@ export const deleteMovie= async(id)=>{
 }
 
 
-export const favouriteList = async (idUser,token)=>{
-  let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
-  ,{
-      headers:{
-        'Content-Type':'application/json',
-        'authorization' : token
+// export const favouriteList = async (idUser,token)=>{
+//   let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
+//   ,{
+//       headers:{
+//         'Content-Type':'application/json',
+//         'authorization' : token
 
-      }
-  }
-  )
-  let data = await results.json()
- return data
-}
+//       }
+//   }
+//   )
+//   let data = await results.json()
+//  return data
+// }
