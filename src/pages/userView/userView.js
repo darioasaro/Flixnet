@@ -7,7 +7,9 @@ import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
 import { checkUsers } from "../../services/users.js";
+
 import { getGenre,favouriteList,findAllMovies} from "../../services/movies";
+
 
 class ViewUser extends React.Component {
   constructor(props) {
