@@ -1,17 +1,7 @@
 // Dado un id busca en la api la pelicula
 
-<<<<<<< HEAD
-export const findMovie = async id => {
-  
-  let response = await fetch(
-    "https://api.themoviedb.org/3/movie/" +
-      id +
-      "?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US"
-  );
-=======
 export const findMovie = async (id_movie) => {
   let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`);
->>>>>>> 797ccec484382eb96c1eb582f3b8feca67380cf3
 
   let dato = await response.json();
   return dato;
@@ -72,12 +62,12 @@ export const findAllMovies = async () => {
   const data = await response.json();
   return data;
 }
-export const favouriteList = async (idUser,token)=>{
+export const favouriteList = async (idUser)=>{
   let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
   ,{
       headers:{
         'Content-Type':'application/json',
-        'authorization' : token
+        //'authorization' : token
 
       }
   }
@@ -85,9 +75,33 @@ export const favouriteList = async (idUser,token)=>{
   let data = await results.json()
  return data
 }
+export const addFavMovieList = async (idMovie, idUser)=>{
+  return fetch(`http://localhost:3000/api/user/${idUser}/favoritos/${idMovie}`, {
+    method: 'POST',
+    //body: JSON.stringify(movie),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  }).then(res => {
+      return res;
+  }).catch(err => err);
+}
 
 export const deleteMovie= async(id)=>{
-  return fetch(`http://localhost:3000/api/movies/${id}`, {
+  return fetch(`http://localhost:3000/api/movies/${id}/favor`, {
+    method: 'DELETE',
+    //body: JSON.stringify(id),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  }).then(res => {
+      return res;
+  }).catch(err => err);
+  
+}
+
+export const deleteFavMovie= async(idMovie,idUser)=>{
+  return fetch(`http://localhost:3000/api/user/${idUser}/favoritos/${idMovie}`, {
     method: 'DELETE',
     //body: JSON.stringify(id),
     headers: {
@@ -100,16 +114,16 @@ export const deleteMovie= async(id)=>{
 }
 
 
-export const favouriteList = async (idUser,token)=>{
-  let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
-  ,{
-      headers:{
-        'Content-Type':'application/json',
-        'authorization' : token
+// export const favouriteList = async (idUser,token)=>{
+//   let results = await fetch(`http://localhost:3000/api/user/${idUser}/favoritos`
+//   ,{
+//       headers:{
+//         'Content-Type':'application/json',
+//         'authorization' : token
 
-      }
-  }
-  )
-  let data = await results.json()
- return data
-}
+//       }
+//   }
+//   )
+//   let data = await results.json()
+//  return data
+// }

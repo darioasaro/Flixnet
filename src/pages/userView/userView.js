@@ -7,13 +7,9 @@ import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
 import { checkUsers } from "../../services/users.js";
-<<<<<<< HEAD
-import { getGenre, favouriteList, findAllMovies } from "../../services/movies";
-=======
 
 import { getGenre,favouriteList,findAllMovies} from "../../services/movies";
 
->>>>>>> 797ccec484382eb96c1eb582f3b8feca67380cf3
 
 class ViewUser extends React.Component {
   constructor(props) {
@@ -37,41 +33,25 @@ class ViewUser extends React.Component {
       // );
       // let resMovies = await topMovies.json();
 
-<<<<<<< HEAD
-      let user = await dataBase.getData("username");
-      let miLista = await dataBase.getData("List of " + user);
-      //let avaibleList = await dataBase.getData("movies");
-      findAllMovies().then(data=> this.setState({avaibleList : data.movies}))
-      //let newList = await favouriteList(await dataBase.getData('id_user'))
-      //console.log('nuevalista',newList)
-      if (miLista === null) {
-        miLista = this.state.myList;
-        //console.log(miLista);
-      }
-=======
-      // let user = await dataBase.getData("username");
+       let user = localStorage.getItem("id_user");
       // let miLista = await dataBase.getData("List of " + user);
       //let avaibleList = await dataBase.getData("movies");
       findAllMovies().then(data=> this.setState({avaibleList: data.movies}))
+      favouriteList(user).then(data => this.setState({myList : data.movies}))
       let newList = await favouriteList(await dataBase.getData('id_user'))
+
       console.log('nuevalista',newList)
       // if (miLista === null) {
       //   miLista = this.state.myList;
       //   //console.log(miLista);
       // }
->>>>>>> 797ccec484382eb96c1eb582f3b8feca67380cf3
       let generos = await getGenre();
       generos.genres.unshift({ id: 0, name: "All" });
 
       this.setState({
-<<<<<<< HEAD
-        topRated: resMovies.results.slice(0, 6),
-        myList: miLista,
-=======
         // topRated: resMovies.results.slice(0, 6),
         // myList: miLista,
         //avaibleList: avaibleList,
->>>>>>> 797ccec484382eb96c1eb582f3b8feca67380cf3
         genres: generos.genres
       });
     } else {
