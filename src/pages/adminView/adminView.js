@@ -7,7 +7,7 @@ import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { findMovie, isDuplicated, searchMovies, findAllMovies } from "../../services/movies";
+import { findMovie, isDuplicated, searchMovies, findAllMovies, deleteMovie  } from "../../services/movies";
 import dataBase from "../../services/database";
 import { getUsers, checkUsers } from "../../services/users.js";
 import { Redirect } from "react-router-dom";
@@ -212,27 +212,11 @@ class AdminView extends React.Component {
   //Toma el id del boton y elimina la pelicula de la lista de disponibles
   deleteAdd = async e => {
     let id = e.target.id;
-    let movies = await dataBase.getData("movies");
-    movies = movies.filter(movie => movie.id !== id);
-    console.log('movies', movies);
+    deleteMovie(id)
+      .then(()=>  findAllMovies().then(data=> this.setState({addedMovies : data.movies})))  
     
-    dataBase.setData("movies", movies);
-    //elimina la pelicula de la lista de cada usuario donde estaba disponible
-    let users = await getUsers();
-    
-    users.map(async user => {
-      let miLista = await dataBase.getData("List of " + user.username);
 
-      if (miLista) {
-        miLista = miLista.filter(miMovie => miMovie.id !== id);
-        dataBase.setData("List of " + user.username, miLista);
-      }
-    });
-
-    this.setState({
-      deleted: true,
-      addedMovies: movies
-    });
+   
   };
   //cierra la tabla de busqueda
   close = () => {
