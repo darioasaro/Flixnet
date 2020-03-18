@@ -7,7 +7,7 @@ import "../userView/userView.css";
 import dataBase from "../../services/database";
 import { Redirect } from "react-router-dom";
 import { checkUsers } from "../../services/users.js";
-import { getGenre,favouriteList } from "../../services/movies";
+import { getGenre,favouriteList,findAllMovies} from "../../services/movies";
 
 class ViewUser extends React.Component {
   constructor(props) {
@@ -26,27 +26,28 @@ class ViewUser extends React.Component {
   }
   async componentDidMount() {
     if (checkUsers()) {
-      let topMovies = await fetch(
-        "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
-      );
-      let resMovies = await topMovies.json();
+      // let topMovies = await fetch(
+      //   "https://api.themoviedb.org/3/movie/popular?api_key=b813c5783821c2f14ec75f3ae6cb1824&language=en-US&page=1"
+      // );
+      // let resMovies = await topMovies.json();
 
-      let user = await dataBase.getData("username");
-      let miLista = await dataBase.getData("List of " + user);
-      let avaibleList = await dataBase.getData("movies");
+      // let user = await dataBase.getData("username");
+      // let miLista = await dataBase.getData("List of " + user);
+      //let avaibleList = await dataBase.getData("movies");
+      findAllMovies().then(data=> this.setState({avaibleList: data.movies}))
       let newList = await favouriteList(await dataBase.getData('id_user'))
       console.log('nuevalista',newList)
-      if (miLista === null) {
-        miLista = this.state.myList;
-        //console.log(miLista);
-      }
+      // if (miLista === null) {
+      //   miLista = this.state.myList;
+      //   //console.log(miLista);
+      // }
       let generos = await getGenre();
       generos.genres.unshift({ id: 0, name: "All" });
 
       this.setState({
-        topRated: resMovies.results.slice(0, 6),
-        myList: miLista,
-        avaibleList: avaibleList,
+        // topRated: resMovies.results.slice(0, 6),
+        // myList: miLista,
+        //avaibleList: avaibleList,
         genres: generos.genres
       });
     } else {
@@ -57,7 +58,7 @@ class ViewUser extends React.Component {
     this.props.inLoggout();
   };
   handleClick = e => {
-    //console.log(e.target.id)
+    console.log('id pelicula',e.target.id)
     this.setState({
       idMovie: e.target.id
     });
@@ -125,6 +126,7 @@ class ViewUser extends React.Component {
               return (
                 <Card className="card" key={i}>
                   <Card.Img
+                   
                     id={movie.id}
                     className="card-img"
                     variant="top"
@@ -139,6 +141,7 @@ class ViewUser extends React.Component {
                   return (
                     <Card className="card" key={i}>
                       <Card.Img
+                       
                         id={movie.id}
                         className="card-img"
                         variant="top"
@@ -164,6 +167,7 @@ class ViewUser extends React.Component {
             return (
               <Card className="card" key={i}>
                 <Card.Img
+                  
                   id={movie.id}
                   className="card-img"
                   variant="top"
