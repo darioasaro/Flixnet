@@ -46,6 +46,8 @@ export const searchMovies=async (movie,token) =>{
 
 
 export const movieAdd = async (movie)=>{
+  console.log(movie);
+  
   return fetch('http://localhost:3000/api/movies/', {
     method: 'POST',
     body: JSON.stringify(movie),
