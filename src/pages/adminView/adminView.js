@@ -136,6 +136,7 @@ class AdminView extends React.Component {
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
     let dato = await findMovie(e.target.id);
+    console.log('dato',dato)
     let movie = {
       id_api : dato.id,
       original_title: dato.original_title,
