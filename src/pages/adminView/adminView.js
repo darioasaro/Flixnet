@@ -135,6 +135,7 @@ class AdminView extends React.Component {
   };
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
+
     let dato = await findMovie(e.target.id);
     console.log('dato',dato)
     let movie = {
@@ -152,6 +153,8 @@ class AdminView extends React.Component {
     if (await isDuplicated("movies", dato)) {
       alert("no podes tener valores repetidos");
     } else {
+      console.log('movie', movie);
+      
       this.props.addMovie(movie);
     }
     findAllMovies().then(data=> this.setState({addedMovies : data.movies}))
@@ -183,6 +186,8 @@ class AdminView extends React.Component {
     this.setState({
       addedMovie: true
     });
+    
+    
     this.props.addMovie(movie);
     document.getElementById("form").reset();
   }
@@ -213,7 +218,8 @@ class AdminView extends React.Component {
   //Toma el id del boton y elimina la pelicula de la lista de disponibles
   deleteAdd = async e => {
     let id = e.target.id;
-    deleteMovie(id)
+    let token = this.props.token
+    deleteMovie(id, token)
       .then(()=>  findAllMovies().then(data=> this.setState({addedMovies : data.movies})))  
     
 

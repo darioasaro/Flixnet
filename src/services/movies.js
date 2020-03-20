@@ -5,6 +5,8 @@ export const findMovie = async (id_movie) => {
   let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`);
 
   let dato = await response.json();
+  console.log('dato',dato);
+  
   return dato;
 };
 
@@ -54,12 +56,16 @@ export const searchMovies=async (movie,token) =>{
 }
 
 
-export const movieAdd = async (movie)=>{
+export const movieAdd = async (movie,token)=>{
+  console.log(movie);
+  
   return fetch('http://localhost:3000/api/movies/', {
     method: 'POST',
     body: JSON.stringify(movie),
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization' : token
+
     }
   }).then(res => {
       return res;
@@ -96,12 +102,13 @@ export const addFavMovieList = async (idMovie, idUser)=>{
   }).catch(err => err);
 }
 
-export const deleteMovie= async(id)=>{
-  return fetch(`http://localhost:3000/api/movies/${id}/favor`, {
+export const deleteMovie= async(id, token)=>{
+  return fetch(`http://localhost:3000/api/movies/${id}`, {
     method: 'DELETE',
     //body: JSON.stringify(id),
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization' : token
     }
   }).then(res => {
       return res;

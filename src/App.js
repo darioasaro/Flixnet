@@ -54,7 +54,10 @@ class App extends React.Component {
   };
 
   addMovie = async movie => {
-   movieAdd(movie)
+    console.log('peli',movie);
+    
+    //let token = local
+   movieAdd(movie, this.token)
   };
   loggout = () => {
     dataBase.deleteData("username")
