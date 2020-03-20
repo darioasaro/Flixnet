@@ -7,7 +7,7 @@ import "../adminView/adminView.css";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
-import { findMovie, isDuplicated, searchMovies, findAllMovies, deleteMovie  } from "../../services/movies";
+import { addMovieAuto, isDuplicated, searchMovies, findAllMovies, deleteMovie  } from "../../services/movies";
 import dataBase from "../../services/database";
 import { getUsers, checkUsers } from "../../services/users.js";
 import { Redirect } from "react-router-dom";
@@ -135,31 +135,10 @@ class AdminView extends React.Component {
   };
   //Capta el id de la pelicula la busca a travez de la funcion findMovie y la agrega a App
   async handleAdd(e) {
-
-    let dato = await findMovie(e.target.id);
-    console.log('dato',dato)
-    let movie = {
-      id_api : dato.id,
-      original_title: dato.original_title,
-      overview: dato.overview,
-      genre: dato.genres,
-      release_date: dato.release_date,
-      poster_path: dato.poster_path,
-      backdrop_path: dato.backdrop_path,
-      vote_average: dato.vote_average,
-      vote_count: dato.vote_count,
-      id: dato.id
-    };
-    if (await isDuplicated("movies", dato)) {
-      alert("no podes tener valores repetidos");
-    } else {
-      console.log('movie', movie);
-      
-      this.props.addMovie(movie);
-    }
+    const token = dataBase.getData("token")
+    let response = await addMovieAuto(e.target.id,token);
+  
     findAllMovies().then(data=> this.setState({addedMovies : data.movies}))
-    
-
     this.setState({
       addedMovie: true,
     });

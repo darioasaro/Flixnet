@@ -1,8 +1,14 @@
 // Dado un id busca en la api la pelicula
 
-export const findMovie = async (id_movie) => {
+export const addMovieAuto = async (id_movie,token) => {
  
-  let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`);
+  let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`,{
+    method: "POST",
+    headers:{
+      "Content-Type":"aplication/json",
+      "authorization" : token
+    }
+  })
 
   let dato = await response.json();
   console.log('dato',dato);
