@@ -1,12 +1,7 @@
 // Dado un id busca en la api la pelicula
 
 export const findMovie = async (id_movie) => {
-<<<<<<< HEAD
-  console.log(id_movie);
-  
-=======
  
->>>>>>> 544fc7983fe0eb61b72b2fadce9fb2519adf197c
   let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`);
 
   let dato = await response.json();
@@ -107,12 +102,13 @@ export const addFavMovieList = async (idMovie, idUser)=>{
   }).catch(err => err);
 }
 
-export const deleteMovie= async(id)=>{
-  return fetch(`http://localhost:3000/api/movies/${id}/favor`, {
+export const deleteMovie= async(id, token)=>{
+  return fetch(`http://localhost:3000/api/movies/${id}`, {
     method: 'DELETE',
     //body: JSON.stringify(id),
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization' : token
     }
   }).then(res => {
       return res;

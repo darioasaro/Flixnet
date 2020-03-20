@@ -218,7 +218,8 @@ class AdminView extends React.Component {
   //Toma el id del boton y elimina la pelicula de la lista de disponibles
   deleteAdd = async e => {
     let id = e.target.id;
-    deleteMovie(id)
+    let token = this.props.token
+    deleteMovie(id, token)
       .then(()=>  findAllMovies().then(data=> this.setState({addedMovies : data.movies})))  
     
 
