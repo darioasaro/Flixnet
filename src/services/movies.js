@@ -1,13 +1,25 @@
 // Dado un id busca en la api la pelicula
 
 export const findMovie = async (id_movie) => {
+<<<<<<< HEAD
   console.log(id_movie);
   
+=======
+ 
+>>>>>>> 544fc7983fe0eb61b72b2fadce9fb2519adf197c
   let response = await fetch(`http://localhost:3000/api/movies/list/${id_movie}`);
 
   let dato = await response.json();
   console.log('dato',dato);
   
+  return dato;
+};
+
+export const findMovieFav = async (id_movie) => {
+ 
+  let response = await fetch(`http://localhost:3000/api/movies/find/${id_movie}`);
+
+  let dato = await response.json();
   return dato;
 };
 

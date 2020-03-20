@@ -12,7 +12,7 @@ import SingleMovie from "./pages/singleMovie/SingleMovie";
 import Layout from "./components/Layout";
 import { getUsers,login } from "./services/users";
 import dataBase from "./services/database";
-import { findMovie, movieAdd, findAllMovies } from "./services/movies";
+import {findMovieFav,findMovie, movieAdd, findAllMovies } from "./services/movies";
 import Modal from '../src/pages/loginView/modalForm/Modal'
 
 class App extends React.Component {
@@ -83,7 +83,8 @@ class App extends React.Component {
 };
 
   async selfMovieView(id_movie) {
-    let mov = await findMovie(id_movie);
+    let mov = await findMovieFav(id_movie);
+    console.log(mov)
     this.setState({
       movie: mov.movie[0],
       single: id_movie
